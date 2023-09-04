@@ -8,6 +8,9 @@ import java.util.prefs.Preferences;
 
 public class Utils {
 
+    public static final int WIDTH  = 900;
+    public static final int HEIGHT = 600;
+
     static Preferences userPrefs = Preferences.userNodeForPackage(Utils.class);
 
     public static void saveUserPrefs() {

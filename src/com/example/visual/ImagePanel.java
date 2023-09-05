@@ -29,4 +29,8 @@ public class ImagePanel extends JPanel {
         g.drawImage(img, 0, 0, null);
     }
 
+    public void setImage(Image img) {
+        this.img = img;
+    }
+
 }

@@ -17,7 +17,13 @@ public class Utils {
         // Save user preferences
         userPrefs.put("username", auth_player_name);
         userPrefs.put("downloadedVersion", downloadedVersion);
+        userPrefs.put("GammaPath", GammaPath);
+        userPrefs.put("LegacyPath", LegacyPath);
     }
+
+    public static String GammaPath = userPrefs.get("GammaPath", Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\java-runtime-gamma\\bin\\javaw.exe");
+    public static String LegacyPath = userPrefs.get("LegacyPath", Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy\\bin\\javaw.exe");
+
     public static String VersionType = "release";
 
     public static String downloadedVersion = userPrefs.get("downloadedVersion", null);

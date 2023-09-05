@@ -105,6 +105,8 @@ public class JsonWriterAndReader {
     }
 
     public void downloadSelectedVersion(JComboBox versionsBox, JProgressBar progressBar) {
+        progressBar.setSize(890, 20);
+        progressBar.setLocation(0, 445);
         String selectedVersion = versionsBox.getSelectedItem().toString();
         try {
             JSONArray versionsArray = (JSONArray) versionsList.get("versions");

@@ -86,12 +86,12 @@ public class ArgumentsGen {
             long majorVersion = (long) javaVersion.get("majorVersion");
 
             if (majorVersion <= 8) {
-                return Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy\\bin\\javaw.exe ";
+                return Utils.LegacyPath + " ";
             } else {
-                return Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\java-runtime-gamma\\bin\\javaw.exe ";
+                return Utils.GammaPath + " ";
             }
         } else {
-            return Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy\\bin\\javaw.exe ";
+            return Utils.LegacyPath + " ";
         }
     }
 

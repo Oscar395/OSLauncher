@@ -3,11 +3,14 @@ package com.example;
 import com.example.visual.CustomComboBoxUI;
 import com.example.visual.CustomTabbedPaneUI;
 import com.example.visual.ImagePanel;
+import com.example.visual.SettingsFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class WindowManager extends JFrame{
     public JButton settings, playButton, accountBtn;
@@ -21,9 +24,14 @@ public class WindowManager extends JFrame{
     public JComboBox versionsList, versionType;
     public static WindowManager Instance;
 
-    private ImagePanel imagePanel;
+    private ImagePanel imagePanel, versionIcon;
 
     private final Color buttonsColor = new Color(110, 110, 110);
+
+    private final Image forgeIcon = new ImageIcon("images/forge_icon.png").getImage();
+    private final Image vanillaIcon = new ImageIcon("images/vanilla_icon.png").getImage();
+    private final Image optifineIcon = new ImageIcon("images/optifine_icon.png").getImage();
+    private final Image snapshotIcon = new ImageIcon("images/dirt_icon.png").getImage();
 
     //JSON writer
     private JsonWriterAndReader jsonWriterAndReader = new JsonWriterAndReader();
@@ -39,6 +47,7 @@ public class WindowManager extends JFrame{
         Instance = this;
 
         imagePanel = new ImagePanel(new ImageIcon("images/background.png").getImage());
+        versionIcon = new ImagePanel(new ImageIcon("images/vanilla_icon.png").getImage());
 
         panel1 = new JPanel();
         panel1.setLayout(null);
@@ -66,7 +75,9 @@ public class WindowManager extends JFrame{
         jTabbedPane.add("Console", panel2);
         add(jTabbedPane);
 
+        versionIcon.setLocation(280, 482);
         panel1.add(imagePanel);
+        panel1.add(versionIcon);
     }
 
     private void initComponents() {
@@ -85,8 +96,8 @@ public class WindowManager extends JFrame{
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
         progressBar.setString("");
-        progressBar.setSize(890, 20);
-        progressBar.setLocation(0,445);
+        progressBar.setSize(890, 4);
+        progressBar.setLocation(0,452);
         progressBar.setBackground(Color.DARK_GRAY);
         progressBar.setForeground(new Color(105, 157, 94));
         panel1.add(progressBar);
@@ -95,6 +106,28 @@ public class WindowManager extends JFrame{
         versionsList.setBounds(660, 505, 220, 25);
         versionsList.setUI(new CustomComboBoxUI());
         versionsList.setMaximumRowCount(12);
+        versionsList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String item = (String) versionsList.getSelectedItem();
+
+                if (item != null) {
+                    if (item.contains("forge")) {
+                        versionIcon.setImage(forgeIcon);
+                        versionIcon.repaint();
+                    } else if (item.contains("OptiFine")) {
+                        versionIcon.setImage(optifineIcon);
+                        versionIcon.repaint();
+                    } else if (item.contains("w")) {
+                        versionIcon.setImage(snapshotIcon);
+                        versionIcon.repaint();
+                    } else {
+                        versionIcon.setImage(vanillaIcon);
+                        versionIcon.repaint();
+                    }
+                }
+            }
+        });
         InitVersions(versionsList);
         panel1.add(versionsList);
 
@@ -137,7 +170,17 @@ public class WindowManager extends JFrame{
         settings.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SettingsFrame settingsFrame = new SettingsFrame();
 
+                setEnabled(false);
+                settingsFrame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        super.windowClosed(e);
+                        setEnabled(true);
+                        setFocusable(true);
+                    }
+                });
             }
         });
         settings.setFont(new Font("Arial", Font.BOLD, 12));

@@ -1,9 +1,6 @@
 package com.example;
 
-import com.example.visual.CustomComboBoxUI;
-import com.example.visual.CustomTabbedPaneUI;
-import com.example.visual.ImagePanel;
-import com.example.visual.SettingsFrame;
+import com.example.visual.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -193,6 +190,22 @@ public class WindowManager extends JFrame{
         accountBtn.setFont(new Font("Arial", Font.BOLD, 12));
         accountBtn.setBackground(buttonsColor);
         accountBtn.setForeground(Color.WHITE);
+        accountBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Accounts accounts = new Accounts();
+
+                setEnabled(false);
+                accounts.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        super.windowClosed(e);
+                        setEnabled(true);
+                        setFocusable(true);
+                    }
+                });
+            }
+        });
         panelToAdd.add(accountBtn);
 
         playButton = new JButton("Play");

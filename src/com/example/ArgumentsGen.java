@@ -210,22 +210,18 @@ public class ArgumentsGen {
 
     public String genExtraArguments() {
         StringJoiner extraArguments = new StringJoiner(" ");
-        String GBs = " -Xmx2G";
-        String experimentalOptions = "-XX:+UnlockExperimentalVMOptions";
-        String useG1GC = "-XX:+UseG1GC";
-        String sizePercent = "-XX:G1NewSizePercent=20";
-        String reservePercent = "-XX:G1ReservePercent=20";
-        String maxGCPauseMillis = "-XX:MaxGCPauseMillis=50";
-        String heapRegionSize = "-XX:G1HeapRegionSize=32M";
+        //String GBs = " -Xmx2G";
+        //String experimentalOptions = "-XX:+UnlockExperimentalVMOptions";
+        //String useG1GC = "-XX:+UseG1GC";
+        //String sizePercent = "-XX:G1NewSizePercent=20";
+        //String reservePercent = "-XX:G1ReservePercent=20";
+        //String maxGCPauseMillis = "-XX:MaxGCPauseMillis=50";
+        //String heapRegionSize = "-XX:G1HeapRegionSize=32M";
+        String jvmArgs = Utils.jvmArguments;
         String log4jArgument = Utils.Log4jArgument;
         String mainClass = Utils.mainClass;
 
-        extraArguments.add(GBs)
-                .add(experimentalOptions)
-                .add(useG1GC).add(sizePercent)
-                .add(reservePercent)
-                .add(maxGCPauseMillis)
-                .add(heapRegionSize)
+        extraArguments.add(jvmArgs)
                 .add(log4jArgument)
                 .add(mainClass);
 
@@ -304,10 +300,10 @@ public class ArgumentsGen {
                         for (Object objs: valuesArray) {
                             String value = (String) objs;
                             if (value.equals("--width")) {
-                                gameArguments.add("--width 854");
+                                gameArguments.add("--width " + Utils.resolutionX);
                             }
                             if (value.equals("--height")) {
-                                gameArguments.add("--height 480");
+                                gameArguments.add("--height " + Utils.resolutionY);
                             }
                         }
                     }

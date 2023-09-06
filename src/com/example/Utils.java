@@ -13,12 +13,24 @@ public class Utils {
 
     static Preferences userPrefs = Preferences.userNodeForPackage(Utils.class);
 
+    public static int resolutionX = userPrefs.getInt("resolutionX", 854);
+    public static int resolutionY = userPrefs.getInt("resolutionY", 480);
+
+    public static String jvmArguments = userPrefs.get("jvmArguments", " -Xmx2G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20" +
+            " -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M");
+
+    public static String selectedRam = userPrefs.get("selectedRam", "2GB");
+
     public static void saveUserPrefs() {
         // Save user preferences
         userPrefs.put("username", auth_player_name);
         userPrefs.put("downloadedVersion", downloadedVersion);
         userPrefs.put("GammaPath", GammaPath);
         userPrefs.put("LegacyPath", LegacyPath);
+        userPrefs.put("jvmArguments", jvmArguments);
+        userPrefs.put("selectedRam", selectedRam);
+        userPrefs.putInt("resolutionX", resolutionX);
+        userPrefs.putInt("resolutionY", resolutionY);
     }
 
     public static String GammaPath = userPrefs.get("GammaPath", Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\java-runtime-gamma\\bin\\javaw.exe");
@@ -58,6 +70,7 @@ public class Utils {
     public static void resetUtils() {
         downloadedVersion = "";
         isForgeVersion = false;
+        isOptifineVersion = false;
         forgeVersion = null;
         classPaths.clear();
         natives_directory = null;

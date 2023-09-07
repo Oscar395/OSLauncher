@@ -1,5 +1,7 @@
 package com.example.visual;
 
+import com.example.SkinRequest;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,8 +37,7 @@ public class Accounts extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle login logic here (send HTTP request to Microsoft)
-                // Parse the response and determine whether the login was successful.
+
             }
         });
 

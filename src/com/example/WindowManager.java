@@ -10,18 +10,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class WindowManager extends JFrame{
-    public JButton settings, playButton, accountBtn;
-    public JLabel label, playerNameLb, selectedVersion, vTypeLb;
+    public JButton settings, playButton, accountBtn, searchBtn;
+    public JLabel label, playerNameLb, selectedVersion, vTypeLb, enterUsername;
     public JProgressBar progressBar;
-    public JTextField playerNameField;
+    public JTextField playerNameField, searchUsernameField;
 
     public JPanel panel1;
     public  JPanel panel2;
+    public JPanel skinsPanel;
     public JTabbedPane jTabbedPane;
     public JComboBox versionsList, versionType;
     public static WindowManager Instance;
 
-    private ImagePanel imagePanel, versionIcon;
+    private ImagePanel imagePanel, versionIcon, skinPreview;
 
     private final Color buttonsColor = new Color(110, 110, 110);
 
@@ -58,7 +59,12 @@ public class WindowManager extends JFrame{
         Console console = new Console();
         panel2.add(console.scrollPane);
 
+        skinsPanel = new JPanel();
+        skinsPanel.setLayout(null);
+        skinsPanel.setBackground(Color.darkGray);
+
         initComponents();
+        addSkinUI();
 
         jTabbedPane = new JTabbedPane();
 
@@ -70,6 +76,7 @@ public class WindowManager extends JFrame{
 
         jTabbedPane.add("Main Page", panel1);
         jTabbedPane.add("Console", panel2);
+        jTabbedPane.add("Skins", skinsPanel);
         add(jTabbedPane);
 
         versionIcon.setLocation(280, 482);
@@ -224,6 +231,44 @@ public class WindowManager extends JFrame{
         playButton.setBackground(buttonsColor);
         playButton.setForeground(Color.WHITE);
         panelToAdd.add(playButton);
+    }
+
+    private void addSkinUI() {
+        enterUsername = new JLabel("Enter Username");
+        enterUsername.setForeground(Color.WHITE);
+        enterUsername.setBounds(5, 5, 150, 25);
+        skinsPanel.add(enterUsername);
+
+        searchUsernameField = new JTextField();
+        searchUsernameField.setBounds(5, 30, 220, 25);
+        skinsPanel.add(searchUsernameField);
+
+        searchBtn = new JButton("Search...");
+        searchBtn.setBounds(5, 60, 120, 25);
+        searchBtn.setFont(new Font("Arial", Font.BOLD, 12));
+        searchBtn.setBackground(buttonsColor);
+        searchBtn.setForeground(Color.WHITE);
+        searchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SkinRequest skinRequest = new SkinRequest();
+                if (searchUsernameField.getText() != null) {
+                    Image skinImg = skinRequest.getSkin(searchUsernameField.getText());
+
+                    if (skinImg != null) {
+                        System.out.println("setting Skin");
+                        skinPreview.setImage(skinImg);
+                        skinPreview.repaint();
+                        System.out.println("skin set");
+                    }
+                }
+            }
+        });
+        skinsPanel.add(searchBtn);
+
+        skinPreview = new ImagePanel(null);
+        skinPreview.setBounds(10, 90, 64, 64);
+        skinsPanel.add(skinPreview);
     }
 
 }

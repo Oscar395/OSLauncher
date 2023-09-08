@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 
 public class WindowManager extends JFrame{
     public JButton settings, playButton, accountBtn, searchBtn;
-    public JLabel label, playerNameLb, selectedVersion, vTypeLb, enterUsername;
+    public JLabel playerNameLb, selectedVersion, vTypeLb, enterUsername, searchStateLb;
     public JProgressBar progressBar;
     public JTextField playerNameField, searchUsernameField;
 
@@ -24,12 +24,16 @@ public class WindowManager extends JFrame{
 
     private ImagePanel imagePanel, versionIcon, skinPreview;
 
+    private UvSkinMap uvSkin;
+
     private final Color buttonsColor = new Color(110, 110, 110);
 
     private final Image forgeIcon = new ImageIcon("images/forge_icon.png").getImage();
     private final Image vanillaIcon = new ImageIcon("images/vanilla_icon.png").getImage();
     private final Image optifineIcon = new ImageIcon("images/optifine_icon.png").getImage();
     private final Image snapshotIcon = new ImageIcon("images/dirt_icon.png").getImage();
+
+    private final Image skinImage = new ImageIcon("images/mc_skin.png").getImage();
 
     //JSON writer
     private JsonWriterAndReader jsonWriterAndReader = new JsonWriterAndReader();
@@ -243,6 +247,11 @@ public class WindowManager extends JFrame{
         searchUsernameField.setBounds(5, 30, 220, 25);
         skinsPanel.add(searchUsernameField);
 
+        searchStateLb = new JLabel("...");
+        searchStateLb.setForeground(Color.WHITE);
+        searchStateLb.setBounds(230, 30, 150, 25);
+        skinsPanel.add(searchStateLb);
+
         searchBtn = new JButton("Search...");
         searchBtn.setBounds(5, 60, 120, 25);
         searchBtn.setFont(new Font("Arial", Font.BOLD, 12));
@@ -251,24 +260,39 @@ public class WindowManager extends JFrame{
         searchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SkinRequest skinRequest = new SkinRequest();
-                if (searchUsernameField.getText() != null) {
-                    Image skinImg = skinRequest.getSkin(searchUsernameField.getText());
 
-                    if (skinImg != null) {
-                        System.out.println("setting Skin");
-                        skinPreview.setImage(skinImg);
-                        skinPreview.repaint();
-                        System.out.println("skin set");
-                    }
+                if (searchUsernameField.getText() != null) {
+                    searchBtn.setEnabled(false);
+                    searchStateLb.setText("Searching...");
+                    SkinRequest skinRequest = new SkinRequest(searchUsernameField.getText());
+                    skinRequest.start();
                 }
             }
         });
         skinsPanel.add(searchBtn);
 
-        skinPreview = new ImagePanel(null);
-        skinPreview.setBounds(10, 90, 64, 64);
-        skinsPanel.add(skinPreview);
+        //skinPreview = new ImagePanel(null);
+        //skinPreview.setBounds(10, 90, 64, 64);
+        //skinsPanel.add(skinPreview);
+        uvSkin = new UvSkinMap(null);
+        uvSkin.setBounds(350, 10, 530, 525);
+        uvSkin.setBackground(Color.gray);
+        skinsPanel.add(uvSkin);
+    }
+
+    public void loadSkin(Image skinImg) {
+        if (skinImg != null) {
+            System.out.println("setting Skin");
+            searchBtn.setEnabled(true);
+
+            uvSkin.setImage(skinImg);
+            uvSkin.repaint();
+
+            searchStateLb.setText("...");
+            searchStateLb.setForeground(Color.green);
+
+            System.out.println("skin set");
+        }
     }
 
 }

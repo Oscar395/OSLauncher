@@ -17,7 +17,21 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 
-public class SkinRequest {
+public class SkinRequest extends Thread{
+
+    private final String name;
+
+    public Image skinImg;
+
+    public SkinRequest(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        this.skinImg = getSkin(this.name);
+        WindowManager.Instance.loadSkin(this.skinImg);
+    }
 
     public String getUsernameUUID(String userName) throws IOException, ParseException {
         String UUIDString = "";
@@ -117,6 +131,9 @@ public class SkinRequest {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                WindowManager.Instance.searchStateLb.setForeground(Color.RED);
+                WindowManager.Instance.searchStateLb.setText("Username not found");
+                WindowManager.Instance.searchBtn.setEnabled(true);
             }
 
             return null;

@@ -4,7 +4,7 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 
 public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
-    private Color selectedColor = new Color(89, 128, 95);
+    private final Color selectedColor = new Color(89, 128, 95);
 
     @Override
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {

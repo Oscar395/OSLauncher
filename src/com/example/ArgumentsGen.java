@@ -266,9 +266,7 @@ public class ArgumentsGen {
                     }
 
                     if (jsonObject.equals("--uuid")) {
-                        UUID uuid = UUID.randomUUID();
-                        String uuidString = uuid.toString().replace("-", "");
-                        String uuidF = "--uuid " + uuidString;
+                        String uuidF = "--uuid " + Utils.playerUUID;
                         gameArguments.add(uuidF);
                     }
 
@@ -333,7 +331,7 @@ public class ArgumentsGen {
             return " " + minecraftArguments.replace("${auth_player_name}", Utils.auth_player_name)
                     .replace("${version_name}", Utils.downloadedVersion).replace("${game_directory}", Utils.game_directory)
                     .replace("${assets_root}", Utils.assets_root).replace("${assets_index_name}", Utils.assets_index_name)
-                    .replace("${auth_uuid}", uuidString).replace("${auth_access_token}", "c01431e9c85e8e141730c2e2015ee64420243e9089591a0b6ab964b961aa1bbf")
+                    .replace("${auth_uuid}", Utils.playerUUID).replace("${auth_access_token}", "c01431e9c85e8e141730c2e2015ee64420243e9089591a0b6ab964b961aa1bbf")
                     .replace("${user_type}", "mojang").replace("${user_properties}", "{}")
                     .replace("${version_type}", Utils.VersionType).replace("${auth_session}", "416f2980fb2f6a605a56e71b5917986b55239a1647868d22fe15def670d3491e")
                     .replace("${game_assets}", assetsPath);

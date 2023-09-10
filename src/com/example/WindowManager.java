@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.visual.*;
+import javafx.scene.control.Skin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +11,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class WindowManager extends JFrame{
-    public JButton settings, playButton, accountBtn, searchBtn;
-    public JLabel playerNameLb, selectedVersion, vTypeLb, enterUsername, searchStateLb;
+    public JButton settings, playButton, accountBtn, searchBtn, useButton;
+    public JLabel playerNameLb, selectedVersion, vTypeLb, enterUsername, searchStateLb, requestApiLbl, skinLabel, capeLabel;
     public JProgressBar progressBar;
     public JTextField playerNameField, searchUsernameField;
 
@@ -19,12 +20,13 @@ public class WindowManager extends JFrame{
     public  JPanel panel2;
     public JPanel skinsPanel;
     public JTabbedPane jTabbedPane;
-    public JComboBox versionsList, versionType;
+    public JComboBox versionsList, versionType, requestAPIType;
     public static WindowManager Instance;
 
     private ImagePanel imagePanel, versionIcon, skinPreview;
 
     private UvSkinMap uvSkin;
+    private uvCapeMap uvCape;
 
     private final Color buttonsColor = new Color(110, 110, 110);
 
@@ -252,8 +254,20 @@ public class WindowManager extends JFrame{
         searchStateLb.setBounds(230, 30, 150, 25);
         skinsPanel.add(searchStateLb);
 
+        requestApiLbl = new JLabel("Request API:");
+        requestApiLbl.setBounds(5, 60, 120, 25);
+        requestApiLbl.setForeground(Color.WHITE);
+        skinsPanel.add(requestApiLbl);
+
+        requestAPIType = new JComboBox<>();
+        requestAPIType.setBounds(90, 60, 135, 25);
+        requestAPIType.setUI(new CustomComboBoxUI());
+        requestAPIType.addItem("Mojang API");
+        requestAPIType.addItem("Ely.by API");
+        skinsPanel.add(requestAPIType);
+
         searchBtn = new JButton("Search...");
-        searchBtn.setBounds(5, 60, 120, 25);
+        searchBtn.setBounds(5, 95, 220, 25);
         searchBtn.setFont(new Font("Arial", Font.BOLD, 12));
         searchBtn.setBackground(buttonsColor);
         searchBtn.setForeground(Color.WHITE);
@@ -264,7 +278,9 @@ public class WindowManager extends JFrame{
                 if (searchUsernameField.getText() != null) {
                     searchBtn.setEnabled(false);
                     searchStateLb.setText("Searching...");
-                    SkinRequest skinRequest = new SkinRequest(searchUsernameField.getText());
+                    uvCape.setImg(null);
+                    uvCape.repaint();
+                    SkinRequest skinRequest = new SkinRequest(searchUsernameField.getText(), (String) requestAPIType.getSelectedItem());
                     skinRequest.start();
                 }
             }
@@ -274,15 +290,52 @@ public class WindowManager extends JFrame{
         //skinPreview = new ImagePanel(null);
         //skinPreview.setBounds(10, 90, 64, 64);
         //skinsPanel.add(skinPreview);
+        skinLabel = new JLabel("Skin");
+        skinLabel.setBounds(350, 265, 200, 35);
+        skinLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        skinLabel.setHorizontalAlignment(JLabel.CENTER);
+        skinLabel.setForeground(Color.WHITE);
+        skinsPanel.add(skinLabel);
+
         uvSkin = new UvSkinMap(null);
-        uvSkin.setBounds(350, 10, 530, 525);
+        uvSkin.setBounds(350, 10, 200, 250);
         uvSkin.setBackground(Color.gray);
         skinsPanel.add(uvSkin);
+
+        capeLabel = new JLabel("Cape");
+        capeLabel.setBounds(555, 265, 200, 35);
+        capeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        capeLabel.setHorizontalAlignment(JLabel.CENTER);
+        capeLabel.setForeground(Color.WHITE);
+        skinsPanel.add(capeLabel);
+
+        uvCape = new uvCapeMap(10, 17);
+        uvCape.setBounds(555, 10, 200, 250);
+        uvCape.setBackground(Color.gray);
+        skinsPanel.add(uvCape);
+
+        useButton = new JButton("Equip skin");
+        useButton.setBounds(5, 125, 220, 25);
+        useButton.setFont(new Font("Arial", Font.BOLD, 12));
+        useButton.setBackground(buttonsColor);
+        useButton.setForeground(Color.WHITE);
+        useButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                useButton.setEnabled(false);
+                if (SkinRequest.uuid != null) {
+                    Utils.playerUUID = SkinRequest.uuid;
+                    Utils.saveUserPrefs();
+                }
+            }
+        });
+        skinsPanel.add(useButton);
     }
 
     public void loadSkin(Image skinImg) {
         if (skinImg != null) {
             System.out.println("setting Skin");
+            useButton.setEnabled(true);
             searchBtn.setEnabled(true);
 
             uvSkin.setImage(skinImg);
@@ -293,6 +346,15 @@ public class WindowManager extends JFrame{
 
             System.out.println("skin set");
         }
+    }
+
+    public void loadCape(Image capeImg) {
+        System.out.println("setting cape");
+
+        uvCape.setImg(capeImg);
+        uvCape.repaint();
+
+        System.out.println("cape set");
     }
 
 }

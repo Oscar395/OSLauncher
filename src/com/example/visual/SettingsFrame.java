@@ -387,7 +387,7 @@ public class SettingsFrame extends JFrame {
                 DefaultsBtn.setEnabled(false);
                 SaveBtn.setEnabled(true);
                 Utils.LegacyPath = Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy\\bin\\javaw.exe";
-                Utils.GammaPath = Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy\\bin\\javaw.exe";
+                Utils.GammaPath = Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\java-runtime-gamma\\bin\\javaw.exe";
                 Utils.selectedRam = "2GB";
                 Utils.resolutionX = 854;
                 Utils.resolutionY = 480;

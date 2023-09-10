@@ -21,6 +21,8 @@ public class Utils {
 
     public static String selectedRam = userPrefs.get("selectedRam", "2GB");
 
+    public static String playerUUID = userPrefs.get("playerUUID", "9cb6a52c55bc456b9513f4cf19cdf9e3");
+
     public static void saveUserPrefs() {
         // Save user preferences
         userPrefs.put("username", auth_player_name);
@@ -29,6 +31,7 @@ public class Utils {
         userPrefs.put("LegacyPath", LegacyPath);
         userPrefs.put("jvmArguments", jvmArguments);
         userPrefs.put("selectedRam", selectedRam);
+        userPrefs.put("playerUUID", playerUUID);
         userPrefs.putInt("resolutionX", resolutionX);
         userPrefs.putInt("resolutionY", resolutionY);
     }

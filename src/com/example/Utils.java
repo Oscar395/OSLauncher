@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.visual.Accounts;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -23,6 +24,18 @@ public class Utils {
 
     public static String playerUUID = userPrefs.get("playerUUID", "9cb6a52c55bc456b9513f4cf19cdf9e3");
 
+    public static String accountType = userPrefs.get("accountType", "Local account");
+
+    public static String accountLocalPath = userPrefs.get("accountLocalPath", null);
+
+    public static String localSkinPath = userPrefs.get("localSkinPath", "images/steve.png");
+
+    public static String javaAgentPath = userPrefs.get("javaAgentPath", null);
+
+    public static String accessToken = userPrefs.get("accessToken", " ");
+
+    public static String clientToken = userPrefs.get("clientToken", " ");
+
     public static void saveUserPrefs() {
         // Save user preferences
         userPrefs.put("username", auth_player_name);
@@ -32,6 +45,12 @@ public class Utils {
         userPrefs.put("jvmArguments", jvmArguments);
         userPrefs.put("selectedRam", selectedRam);
         userPrefs.put("playerUUID", playerUUID);
+        userPrefs.put("accountType", accountType);
+        userPrefs.put("accountLocalPath", accountLocalPath);
+        userPrefs.put("localSkinPath", localSkinPath);
+        userPrefs.put("javaAgentPath", javaAgentPath);
+        userPrefs.put("accessToken", accessToken);
+        userPrefs.put("clientToken", clientToken);
         userPrefs.putInt("resolutionX", resolutionX);
         userPrefs.putInt("resolutionY", resolutionY);
     }
@@ -40,6 +59,8 @@ public class Utils {
     public static String LegacyPath = userPrefs.get("LegacyPath", Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy\\bin\\javaw.exe");
 
     public static String VersionType = "release";
+
+    public static String javaAgentArgs = "";
 
     public static String downloadedVersion = userPrefs.get("downloadedVersion", null);
 

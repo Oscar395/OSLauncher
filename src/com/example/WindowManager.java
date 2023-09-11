@@ -2,17 +2,32 @@ package com.example;
 
 import com.example.visual.*;
 import javafx.scene.control.Skin;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class WindowManager extends JFrame{
-    public JButton settings, playButton, accountBtn, searchBtn, useButton;
-    public JLabel playerNameLb, selectedVersion, vTypeLb, enterUsername, searchStateLb, requestApiLbl, skinLabel, capeLabel;
+    public JButton settings, playButton, accountBtn, searchBtn, useButton, saveButton;
+    public JLabel playerNameLb, selectedVersion, vTypeLb, enterUsername, searchStateLb, requestApiLbl, skinLabel, capeLabel,
+            accountTypeLabel;
     public JProgressBar progressBar;
     public JTextField playerNameField, searchUsernameField;
 
@@ -23,10 +38,10 @@ public class WindowManager extends JFrame{
     public JComboBox versionsList, versionType, requestAPIType;
     public static WindowManager Instance;
 
-    private ImagePanel imagePanel, versionIcon, skinPreview;
+    private ImagePanel imagePanel, versionIcon;
 
     private UvSkinMap uvSkin;
-    private uvCapeMap uvCape;
+    public uvCapeMap uvCape, uvPlayerHead;
 
     private final Color buttonsColor = new Color(110, 110, 110);
 
@@ -35,7 +50,8 @@ public class WindowManager extends JFrame{
     private final Image optifineIcon = new ImageIcon("images/optifine_icon.png").getImage();
     private final Image snapshotIcon = new ImageIcon("images/dirt_icon.png").getImage();
 
-    private final Image skinImage = new ImageIcon("images/mc_skin.png").getImage();
+    public final Image accountEly_byIcon = new ImageIcon("images/Ely_by25.png").getImage();
+    public final Image accountLocalIcon = new ImageIcon("images/account25.png").getImage();
 
     //JSON writer
     private JsonWriterAndReader jsonWriterAndReader = new JsonWriterAndReader();
@@ -72,6 +88,12 @@ public class WindowManager extends JFrame{
         initComponents();
         addSkinUI();
 
+        uvPlayerHead = new uvCapeMap(8, 8, 8, 8, 5);
+        uvPlayerHead.setBounds(10, 35, 40, 40);
+        uvPlayerHead.setImg(new ImageIcon(Utils.localSkinPath).getImage());
+        panel1.add(uvPlayerHead);
+        uvPlayerHead.repaint();
+
         jTabbedPane = new JTabbedPane();
 
         jTabbedPane.setBounds(0,0, Utils.WIDTH - 5, Utils.HEIGHT - this.getInsets().top);
@@ -98,6 +120,7 @@ public class WindowManager extends JFrame{
         playerNameField.setBounds(765, 5, 120, 25);
         playerNameField.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, 12));
         playerNameField.setText(Utils.auth_player_name);
+        playerNameField.setEnabled(Utils.accountType.equals("Local account"));
 
         panel1.add(playerNameField);
         panel1.add(playerNameLb);
@@ -162,6 +185,16 @@ public class WindowManager extends JFrame{
             }
         });
         panel1.add(versionType);
+
+        accountTypeLabel = new JLabel(Utils.accountType);
+        accountTypeLabel.setBounds(10, 5, 150, 25);
+        accountTypeLabel.setForeground(Color.WHITE);
+        if (Utils.accountType.equals("Local account")) {
+            accountTypeLabel.setIcon(new ImageIcon(accountLocalIcon));
+        } else {
+            accountTypeLabel.setIcon(new ImageIcon(accountEly_byIcon));
+        }
+        panel1.add(accountTypeLabel);
 
         vTypeLb = new JLabel("Type: ");
         vTypeLb.setBounds(550, 475, 130, 25);
@@ -228,6 +261,11 @@ public class WindowManager extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 playButton.setEnabled(false);
                 progressBar.setString("Copying Java Runtime Environment...");
+                if (Utils.accountType.equals("Ely.by account")) {
+                    Utils.javaAgentArgs = " -javaagent:" + Utils.javaAgentPath + "=ely.by";
+                } else {
+                    Utils.javaAgentArgs = "";
+                }
                 Main.tryToCopyJre(Instance);
                 progressBar.setString("Getting Version...");
                 jsonWriterAndReader.downloadSelectedVersion(versionsList, progressBar);
@@ -237,6 +275,22 @@ public class WindowManager extends JFrame{
         playButton.setBackground(buttonsColor);
         playButton.setForeground(Color.WHITE);
         panelToAdd.add(playButton);
+
+        saveButton = new JButton("Save");
+        saveButton.setBounds(765, 35, 120, 25);
+        saveButton.setFont(new Font("Arial", Font.BOLD, 12));
+        saveButton.setBackground(buttonsColor);
+        saveButton.setForeground(Color.WHITE);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Utils.auth_player_name = playerNameField.getText();
+                Utils.saveUserPrefs();
+                updateAccountJson();
+            }
+        });
+        saveButton.setEnabled(Utils.accountType.equals("Local account"));
+        panelToAdd.add(saveButton);
     }
 
     private void addSkinUI() {
@@ -297,7 +351,7 @@ public class WindowManager extends JFrame{
         skinLabel.setForeground(Color.WHITE);
         skinsPanel.add(skinLabel);
 
-        uvSkin = new UvSkinMap(null);
+        uvSkin = new UvSkinMap(new ImageIcon(Utils.localSkinPath).getImage());
         uvSkin.setBounds(350, 10, 200, 250);
         uvSkin.setBackground(Color.gray);
         skinsPanel.add(uvSkin);
@@ -309,7 +363,7 @@ public class WindowManager extends JFrame{
         capeLabel.setForeground(Color.WHITE);
         skinsPanel.add(capeLabel);
 
-        uvCape = new uvCapeMap(10, 17);
+        uvCape = new uvCapeMap(10, 17, 1, 0, 8);
         uvCape.setBounds(555, 10, 200, 250);
         uvCape.setBackground(Color.gray);
         skinsPanel.add(uvCape);
@@ -319,23 +373,77 @@ public class WindowManager extends JFrame{
         useButton.setFont(new Font("Arial", Font.BOLD, 12));
         useButton.setBackground(buttonsColor);
         useButton.setForeground(Color.WHITE);
+        useButton.setToolTipText("You must have a Local account to use this feature");
         useButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 useButton.setEnabled(false);
                 if (SkinRequest.uuid != null) {
                     Utils.playerUUID = SkinRequest.uuid;
+                    Image saveImage = uvSkin.getImage();
+                    String localSkinPath = Utils.localSkinPath;
+
+                    BufferedImage skinImage = UvSkinMap.toBufferedImage(saveImage);
+                    try {
+                        ImageIO.write(skinImage, "png",new File(localSkinPath));
+
+                        System.out.println("Skin saved successfully");
+                    } catch (IOException exception) {
+                        throw new RuntimeException(exception);
+                    }
+
+                    uvPlayerHead.setImg(skinImage);
+                    uvPlayerHead.repaint();
+
                     Utils.saveUserPrefs();
+                    updateAccountJson();
                 }
             }
         });
+        useButton.setEnabled(Utils.accountType.equals("Local account"));
         skinsPanel.add(useButton);
+    }
+
+    private void updateAccountJson() {
+        if (Utils.accountLocalPath != null) {
+            try {
+                Path accountPath = Paths.get(Utils.accountLocalPath);
+
+                JSONParser parser = new JSONParser();
+
+                byte[] bytes = Files.readAllBytes(accountPath);
+                String lines = new String(bytes, StandardCharsets.UTF_8);
+
+                Object parseObj = null;
+                try {
+                    parseObj = parser.parse(lines);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                JSONObject accountInfo = (JSONObject) parseObj;
+
+                accountInfo.put("id", Utils.playerUUID);
+                accountInfo.put("name", Utils.auth_player_name);
+                accountInfo.put("localSkinPath", Utils.localSkinPath);
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.accountLocalPath))){
+                    writer.write(accountInfo.toJSONString());
+                    System.out.println("Json written successfully");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void loadSkin(Image skinImg) {
         if (skinImg != null) {
             System.out.println("setting Skin");
-            useButton.setEnabled(true);
+            useButton.setEnabled(Utils.accountType.equals("Local account"));
             searchBtn.setEnabled(true);
 
             uvSkin.setImage(skinImg);

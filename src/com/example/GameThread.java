@@ -19,7 +19,6 @@ public class GameThread{
 
         String idBat = id + ".bat";
 
-        //System.out.println(command);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(idBat))){
             writer.write(command);
 

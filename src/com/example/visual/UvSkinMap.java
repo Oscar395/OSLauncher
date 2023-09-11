@@ -99,6 +99,10 @@ public class UvSkinMap extends JPanel {
         this.img = img;
     }
 
+    public Image getImage() {
+        return this.img;
+    }
+
     public static BufferedImage toBufferedImage(Image img)
     {
         if (img instanceof BufferedImage)

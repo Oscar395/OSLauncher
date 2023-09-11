@@ -12,9 +12,17 @@ public class uvCapeMap extends JPanel {
     private int x;
     private int y;
 
-    public uvCapeMap(int x, int y) {
+    private int offsetX;
+    private int offsetY;
+
+    private int SCALE_NUMBER;
+
+    public uvCapeMap(int x, int y, int offsetX, int offsetY, int SCALE_NUMBER) {
         this.x = x;
         this.y = y;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.SCALE_NUMBER = SCALE_NUMBER;
     }
 
     @Override
@@ -23,9 +31,8 @@ public class uvCapeMap extends JPanel {
         if (this.img != null) {
             BufferedImage bufferedImage = UvSkinMap.toBufferedImage(this.img);
 
-            this.subsSprite = bufferedImage.getSubimage(1, 0, this.x, this.y);
-            int SCALE_NUMBER = 8;
-            g.drawImage(this.subsSprite, 0, 0, 11 * SCALE_NUMBER, 17 * SCALE_NUMBER, null);
+            this.subsSprite = bufferedImage.getSubimage(this.offsetX, this.offsetY, this.x, this.y);
+            g.drawImage(this.subsSprite, 0, 0, this.x * this.SCALE_NUMBER, this.y * this.SCALE_NUMBER, null);
         }
     }
 

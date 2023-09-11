@@ -217,6 +217,7 @@ public class ArgumentsGen {
         //String reservePercent = "-XX:G1ReservePercent=20";
         //String maxGCPauseMillis = "-XX:MaxGCPauseMillis=50";
         //String heapRegionSize = "-XX:G1HeapRegionSize=32M";
+        String javaAgentArgs = Utils.javaAgentArgs;
         String jvmArgs = Utils.jvmArguments;
         String log4jArgument = Utils.Log4jArgument;
         String mainClass = Utils.mainClass;
@@ -271,7 +272,7 @@ public class ArgumentsGen {
                     }
 
                     if (jsonObject.equals("--accessToken")) {
-                        String accessToken = "--accessToken";
+                        String accessToken = "--accessToken " + Utils.clientToken;
                         gameArguments.add(accessToken);
                     }
 

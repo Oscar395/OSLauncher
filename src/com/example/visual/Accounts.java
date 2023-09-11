@@ -6,12 +6,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -21,9 +23,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -137,19 +138,30 @@ public class Accounts extends JFrame {
                         createAccountLbl.setText("enter password or Email");
                     }
                 } else {
-                    Utils.playerUUID = "9cb6a52c55bc456b9513f4cf19cdf9e3";
-                    Utils.saveUserPrefs();
                     JSONObject accountInfo = new JSONObject();
-                    accountInfo.put("id", Utils.playerUUID);
+                    accountInfo.put("id", "9cb6a52c55bc456b9513f4cf19cdf9e3");
                     accountInfo.put("name", emailField.getText());
                     accountInfo.put("type", "Local account");
 
                     String idFilePath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\" + emailField.getText() + ".json";
+                    String localSkinPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\skins\\" + emailField.getText() + ".png";
+
+                    accountInfo.put("localPath", idFilePath);
+                    accountInfo.put("localSkinPath", localSkinPath);
+                    accountInfo.put("accessToken", "");
 
                     Path directoryPath = Paths.get(idFilePath).getParent();
                     if (directoryPath != null){
                         try {
                             Files.createDirectories(directoryPath);
+                        } catch (IOException exception) {
+                            throw new RuntimeException(exception);
+                        }
+                    }
+                    Path skinDirectoryPath = Paths.get(localSkinPath).getParent();
+                    if (skinDirectoryPath != null){
+                        try {
+                            Files.createDirectories(skinDirectoryPath);
                         } catch (IOException exception) {
                             throw new RuntimeException(exception);
                         }
@@ -162,7 +174,19 @@ public class Accounts extends JFrame {
                         e1.printStackTrace();
                     }
 
-                    model.addElement(new Account((String) accountInfo.get("id"), (String) accountInfo.get("name"), "0", (String) accountInfo.get("type")));
+                    Image skinImage = new ImageIcon("images/steve.png").getImage();
+                    BufferedImage bSkinImage = UvSkinMap.toBufferedImage(skinImage);
+
+                    try {
+                        ImageIO.write(bSkinImage, "png",new File(localSkinPath));
+
+                        System.out.println("Skin saved successfully");
+                    } catch (IOException exception) {
+                        throw new RuntimeException(exception);
+                    }
+
+                    model.addElement(new Account((String) accountInfo.get("id"), (String) accountInfo.get("name"), "",
+                            (String) accountInfo.get("type"), idFilePath, localSkinPath));
                     loginButton.setEnabled(true);
                 }
             }
@@ -279,10 +303,39 @@ public class Accounts extends JFrame {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = accountList.getSelectedValue().emailUsername;
+                String name = accountList.getSelectedValue().getEmailUsername();
                 WindowManager.Instance.playerNameField.setText(name);
                 Utils.auth_player_name = name;
+                Utils.accountType = accountList.getSelectedValue().getType();
+                Utils.accountLocalPath = accountList.getSelectedValue().getLocalPath();
+                WindowManager.Instance.accountTypeLabel.setText(Utils.accountType);
+
+                Utils.localSkinPath = accountList.getSelectedValue().getLocalSkinPath();
+
+                Image skinImage = new ImageIcon(Utils.localSkinPath).getImage();
+                WindowManager.Instance.uvPlayerHead.setImg(skinImage);
+                WindowManager.Instance.uvPlayerHead.validate();
+                WindowManager.Instance.uvPlayerHead.repaint();
+
                 Utils.saveUserPrefs();
+
+                if (accountList.getSelectedValue().getType().equals("Ely.by account")) {
+                    decodeToken(accountList.getSelectedValue().getAccessToken());
+                }
+
+                if (Utils.accountType.equals("Local account")) {
+                    Image icon = WindowManager.Instance.accountLocalIcon;
+                    WindowManager.Instance.accountTypeLabel.setIcon(new ImageIcon(icon));
+                    WindowManager.Instance.playerNameField.setEnabled(true);
+                    WindowManager.Instance.saveButton.setEnabled(true);
+                    WindowManager.Instance.useButton.setEnabled(true);
+                } else {
+                    Image icon = WindowManager.Instance.accountEly_byIcon;
+                    WindowManager.Instance.playerNameField.setEnabled(false);
+                    WindowManager.Instance.saveButton.setEnabled(false);
+                    WindowManager.Instance.useButton.setEnabled(false);
+                    WindowManager.Instance.accountTypeLabel.setIcon(new ImageIcon(icon));
+                }
             }
         });
 
@@ -290,9 +343,101 @@ public class Accounts extends JFrame {
         deleteButton.setBounds(427, 260, 122, 30);
         deleteButton.setForeground(Color.WHITE);
         deleteButton.setBackground(Color.GRAY);
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String filePath = accountList.getSelectedValue().getLocalPath();
+                String accountType = accountList.getSelectedValue().getType();
+                try {
+                    Files.delete(Paths.get(filePath));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                int index = accountList.getSelectedIndex();
+
+                if (index != -1) {
+                    model.remove(index);
+                    accountList.setSelectedIndex(0);
+
+                    if (accountList.getSelectedValue() != null) {
+                        Utils.localSkinPath = accountList.getSelectedValue().getLocalSkinPath();
+                        Utils.saveUserPrefs();
+
+                        Image skinImage = new ImageIcon(Utils.localSkinPath).getImage();
+                        WindowManager.Instance.uvPlayerHead.setImg(skinImage);
+                        WindowManager.Instance.uvPlayerHead.validate();
+                        WindowManager.Instance.uvPlayerHead.repaint();
+                    }
+
+                    if (accountType.equals("Ely.by account") && model.getSize() < 1) {
+                        Image icon = WindowManager.Instance.accountLocalIcon;
+                        WindowManager.Instance.accountTypeLabel.setIcon(new ImageIcon(icon));
+                        Utils.accountType = "Local account";
+                        WindowManager.Instance.playerNameField.setEnabled(true);
+                        WindowManager.Instance.saveButton.setEnabled(true);
+                        WindowManager.Instance.useButton.setEnabled(true);
+                        WindowManager.Instance.accountTypeLabel.setText(Utils.accountType);
+                        Utils.clientToken = "";
+                        Utils.saveUserPrefs();
+                    } else {
+                        String name = accountList.getSelectedValue().getEmailUsername();
+                        WindowManager.Instance.playerNameField.setText(name);
+                        Utils.auth_player_name = name;
+                        Utils.accountType = accountList.getSelectedValue().getType();
+                        Utils.accountLocalPath = accountList.getSelectedValue().getLocalPath();
+                        WindowManager.Instance.accountTypeLabel.setText(Utils.accountType);
+                        Utils.saveUserPrefs();
+
+                        if (accountList.getSelectedValue().getType().equals("Ely.by account")) {
+                            decodeToken(accountList.getSelectedValue().getAccessToken());
+                        }
+                        if (Utils.accountType.equals("Local account")) {
+                            Image icon = WindowManager.Instance.accountLocalIcon;
+                            WindowManager.Instance.accountTypeLabel.setIcon(new ImageIcon(icon));
+                            WindowManager.Instance.playerNameField.setEnabled(true);
+                            WindowManager.Instance.saveButton.setEnabled(true);
+                            WindowManager.Instance.useButton.setEnabled(true);
+                        } else {
+                            Image icon = WindowManager.Instance.accountEly_byIcon;
+                            WindowManager.Instance.playerNameField.setEnabled(false);
+                            WindowManager.Instance.saveButton.setEnabled(false);
+                            WindowManager.Instance.useButton.setEnabled(false);
+                            WindowManager.Instance.accountTypeLabel.setIcon(new ImageIcon(icon));
+                        }
+                    }
+                }
+            }
+        });
 
         accountsPanel.setBounds(290, 10, 260, 280);
         accountsPanel.setBackground(Color.darkGray);
+    }
+
+    private void decodeToken(String token) {
+        String[] chunks = token.split("\\.");
+
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        String header = new String(decoder.decode(chunks[0]));
+        String payload = new String(decoder.decode(chunks[1]));
+
+        JSONParser parser = new JSONParser();
+
+        try {
+            Object parseObj = parser.parse(payload);
+
+            JSONObject payloadJson = (JSONObject) parseObj;
+
+            String clientToken = (String) payloadJson.get("ely-client-token");
+
+            System.out.println(clientToken);
+
+            Utils.clientToken = clientToken;
+            Utils.saveUserPrefs();
+
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void startLoginProcess(String UsernameEmail, String password) {
@@ -384,10 +529,16 @@ public class Accounts extends JFrame {
 
         JSONObject jsonResponseObj = (JSONObject) response;
 
+        String accessToken = (String) jsonResponseObj.get("accessToken");
+
         JSONObject selectedProfile = (JSONObject) jsonResponseObj.get("selectedProfile");
         selectedProfile.put("type", "Ely.by account");
-        String id = (String) selectedProfile.get("id");
-        String idFilePath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\" + id + ".json";
+        String name = (String) selectedProfile.get("name");
+        String idFilePath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\" + name + ".json";
+        String localSkinPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\skins\\" + name + ".png";
+        selectedProfile.put("localPath", idFilePath);
+        selectedProfile.put("localSkinPath", localSkinPath);
+        selectedProfile.put("accessToken", accessToken);
 
         Path directoryPath = Paths.get(idFilePath).getParent();
         if (directoryPath != null){
@@ -405,7 +556,34 @@ public class Accounts extends JFrame {
             e.printStackTrace();
         }
 
-        model.addElement(new Account((String) selectedProfile.get("id"), (String) selectedProfile.get("name"), "0", "Ely.by account"));
+        //Makes skins directory
+        Path skinDirectoryPath = Paths.get(localSkinPath).getParent();
+        if (skinDirectoryPath != null){
+            try {
+                Files.createDirectories(skinDirectoryPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //Downloads and stores the skin png
+        BufferedImage skinImage = null;
+        try {
+            URL skinUrl = new URL("http://skinsystem.ely.by/skins/" + name);
+
+            skinImage = ImageIO.read(skinUrl);
+
+            ImageIO.write(skinImage, "png",new File(localSkinPath));
+
+            System.out.println("Skin saved successfully");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Adds the new element Account with its own attributes
+        model.addElement(new Account((String) selectedProfile.get("id"), (String) selectedProfile.get("name"), (String) jsonResponseObj.get("accessToken"),
+                "Ely.by account", (String) selectedProfile.get("localPath"), (String) selectedProfile.get("localSkinPath")));
+
         loginButton.setEnabled(true);
     }
 
@@ -433,14 +611,15 @@ public class Accounts extends JFrame {
 
                 JSONObject accountInfo = (JSONObject) parseObj;
 
-                model.addElement(new Account((String) accountInfo.get("id"), (String) accountInfo.get("name"), "0", (String) accountInfo.get("type")));
+                model.addElement(new Account((String) accountInfo.get("id"), (String) accountInfo.get("name"), (String) accountInfo.get("accessToken"),
+                        (String) accountInfo.get("type"), (String) accountInfo.get("localPath"), (String) accountInfo.get("localSkinPath")));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Set<String> listFilesUsingDirectoryStream(String dir) throws IOException {
+    public static Set<String> listFilesUsingDirectoryStream(String dir) throws IOException {
         Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
             for (Path path : stream) {
@@ -453,18 +632,31 @@ public class Accounts extends JFrame {
         return fileSet;
     }
 
-    private class Account {
+    public class Account {
         String uuid = "";
         String emailUsername = "";
         String accessToken = "";
 
         String type = "";
+        String localPath = "";
 
-        public Account(String uuid, String emailUsername, String accessToken, String type) {
+        String localSkinPath = "";
+
+        public Account(String uuid, String emailUsername, String accessToken, String type, String localPath, String localSkinPath) {
             this.uuid = uuid;
             this.emailUsername = emailUsername;
             this.accessToken = accessToken;
             this.type = type;
+            this.localPath = localPath;
+            this.localSkinPath = localSkinPath;
+        }
+
+        public String getLocalSkinPath() {
+            return localSkinPath;
+        }
+
+        public String getLocalPath() {
+            return localPath;
         }
 
         public String getType() {

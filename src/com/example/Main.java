@@ -12,6 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        copyJavaAgent();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -21,6 +22,35 @@ public class Main {
                 }
             }
         });
+    }
+
+    public static void copyJavaAgent() {
+        String path = "javaAgent/authlib-injector-1.2.3.jar";
+        String destination = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\javaAgent\\authlib-injector-1.2.3.jar";
+        Utils.javaAgentPath = destination;
+        Utils.saveUserPrefs();
+
+        Path directoryPath = Paths.get(destination).getParent();
+        if (directoryPath != null){
+            try {
+                Files.createDirectories(directoryPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (Files.notExists(Paths.get(destination))) {
+            try {
+                copyResource(path, destination);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void copyResource(String res, String dest) throws IOException {
+        Files.copy(Paths.get(res), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("java Agent successfully copy");
     }
 
     public static void tryToCopyJre(JFrame frame) {

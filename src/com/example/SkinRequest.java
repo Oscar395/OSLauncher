@@ -165,7 +165,7 @@ public class SkinRequest extends Thread {
             e.printStackTrace();
             WindowManager.Instance.searchStateLb.setForeground(Color.RED);
             WindowManager.Instance.searchStateLb.setText("Username not found");
-            WindowManager.Instance.searchBtn.setEnabled(true);
+            WindowManager.Instance.searchBtn.setEnabled(Utils.accountType.equals("Local account"));
         }
 
         return null;

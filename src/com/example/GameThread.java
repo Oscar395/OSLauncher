@@ -21,6 +21,7 @@ public class GameThread{
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(idBat))){
             writer.write(command);
+            System.out.println("bat file successfully written");
 
         } catch (Exception e) {
             e.printStackTrace();

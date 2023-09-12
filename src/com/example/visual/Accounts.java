@@ -307,6 +307,7 @@ public class Accounts extends JFrame {
                 WindowManager.Instance.playerNameField.setText(name);
                 Utils.auth_player_name = name;
                 Utils.accountType = accountList.getSelectedValue().getType();
+                Utils.playerUUID = accountList.getSelectedValue().getUuid();
                 Utils.accountLocalPath = accountList.getSelectedValue().getLocalPath();
                 WindowManager.Instance.accountTypeLabel.setText(Utils.accountType);
 
@@ -320,6 +321,7 @@ public class Accounts extends JFrame {
                 Utils.saveUserPrefs();
 
                 if (accountList.getSelectedValue().getType().equals("Ely.by account")) {
+                    Utils.accessToken = accountList.getSelectedValue().getAccessToken();
                     decodeToken(accountList.getSelectedValue().getAccessToken());
                 }
 
@@ -384,11 +386,13 @@ public class Accounts extends JFrame {
                         WindowManager.Instance.playerNameField.setText(name);
                         Utils.auth_player_name = name;
                         Utils.accountType = accountList.getSelectedValue().getType();
+                        Utils.playerUUID = accountList.getSelectedValue().getUuid();
                         Utils.accountLocalPath = accountList.getSelectedValue().getLocalPath();
                         WindowManager.Instance.accountTypeLabel.setText(Utils.accountType);
                         Utils.saveUserPrefs();
 
                         if (accountList.getSelectedValue().getType().equals("Ely.by account")) {
+                            Utils.accessToken = accountList.getSelectedValue().getAccessToken();
                             decodeToken(accountList.getSelectedValue().getAccessToken());
                         }
                         if (Utils.accountType.equals("Local account")) {
@@ -515,6 +519,156 @@ public class Accounts extends JFrame {
             }
         });
         loginThread.start();
+    }
+
+    public static void refreshAccessToken(String accessToken) {
+        Thread refreshThread = new Thread(() -> {
+
+            int responseCode = 0;
+            String inputString = null;
+
+            URL url = null;
+            try {
+                url = new URL("https://authserver.ely.by/auth/refresh");
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoOutput(true);
+
+                // create the query params
+                StringBuffer queryParam = new StringBuffer();
+                queryParam.append("accessToken=");
+                queryParam.append(accessToken);
+                queryParam.append("&");
+                queryParam.append("clientToken=");
+                queryParam.append("oslauncher");
+                queryParam.append("&");
+                queryParam.append("requestUser=");
+                queryParam.append("true");
+
+                // Output the results
+                OutputStream output = urlConnection.getOutputStream();
+                output.write(queryParam.toString().getBytes());
+                output.flush();
+
+                // get the response-code from the response
+                responseCode = urlConnection.getResponseCode();
+
+                StringBuilder response = new StringBuilder();
+                // open the contents of the URL as an inputStream and print to stdout
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        urlConnection.getInputStream()));
+                while ((inputString = in.readLine()) != null) {
+                    System.out.println(inputString);
+                    response.append(inputString);
+                }
+                in.close();
+                urlConnection.disconnect();
+                System.out.println("-------------------------------------------------------------------------------------");
+
+                JSONParser parser = new JSONParser();
+
+                Object responseObj = null;
+                try {
+                    responseObj = parser.parse(response.toString());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                JSONObject jsonResponseObj = (JSONObject) responseObj;
+
+                String accessTokenS = (String) jsonResponseObj.get("accessToken");
+
+                JSONObject selectedProfile = (JSONObject) jsonResponseObj.get("selectedProfile");
+                selectedProfile.put("type", "Ely.by account");
+                String name = (String) selectedProfile.get("name");
+                String idFilePath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\" + name + ".json";
+                String localSkinPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\skins\\" + name + ".png";
+                selectedProfile.put("localPath", idFilePath);
+                selectedProfile.put("localSkinPath", localSkinPath);
+                selectedProfile.put("accessToken", accessTokenS);
+
+                Utils.accessToken = accessTokenS;
+                Utils.auth_player_name = name;
+                Utils.playerUUID = (String) selectedProfile.get("id");
+                Utils.localSkinPath = localSkinPath;
+                Utils.accountLocalPath = idFilePath;
+                Utils.saveUserPrefs();
+
+                Path directoryPath = Paths.get(idFilePath).getParent();
+                if (directoryPath != null){
+                    try {
+                        Files.createDirectories(directoryPath);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(idFilePath))){
+                    writer.write(selectedProfile.toJSONString());
+                    System.out.println("account refresh written successfully");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                String[] chunks = accessTokenS.split("\\.");
+
+                Base64.Decoder decoder = Base64.getUrlDecoder();
+
+                String header = new String(decoder.decode(chunks[0]));
+                String payload = new String(decoder.decode(chunks[1]));
+
+                try {
+                    Object parseObj = parser.parse(payload);
+
+                    JSONObject payloadJson = (JSONObject) parseObj;
+
+                    String clientToken = (String) payloadJson.get("ely-client-token");
+
+                    System.out.println(clientToken);
+
+                    Utils.clientToken = clientToken;
+                    Utils.saveUserPrefs();
+
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                //Makes skins directory
+                Path skinDirectoryPath = Paths.get(localSkinPath).getParent();
+                if (skinDirectoryPath != null){
+                    try {
+                        Files.createDirectories(skinDirectoryPath);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                //Downloads and stores the skin png
+                BufferedImage skinImage = null;
+                try {
+                    URL skinUrl = new URL("http://skinsystem.ely.by/skins/" + name);
+
+                    skinImage = ImageIO.read(skinUrl);
+
+                    ImageIO.write(skinImage, "png",new File(localSkinPath));
+
+                    System.out.println("Skin saved successfully");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        refreshThread.start();
     }
 
     private void saveJsonResponse(String jsonResponse) {

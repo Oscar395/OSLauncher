@@ -222,7 +222,8 @@ public class ArgumentsGen {
         String log4jArgument = Utils.Log4jArgument;
         String mainClass = Utils.mainClass;
 
-        extraArguments.add(jvmArgs)
+        extraArguments.add(javaAgentArgs)
+                .add(jvmArgs)
                 .add(log4jArgument)
                 .add(mainClass);
 

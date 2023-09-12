@@ -29,10 +29,14 @@ public class uvCapeMap extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (this.img != null) {
-            BufferedImage bufferedImage = UvSkinMap.toBufferedImage(this.img);
+            try {
+                BufferedImage bufferedImage = UvSkinMap.toBufferedImage(this.img);
 
-            this.subsSprite = bufferedImage.getSubimage(this.offsetX, this.offsetY, this.x, this.y);
-            g.drawImage(this.subsSprite, 0, 0, this.x * this.SCALE_NUMBER, this.y * this.SCALE_NUMBER, null);
+                this.subsSprite = bufferedImage.getSubimage(this.offsetX, this.offsetY, this.x, this.y);
+                g.drawImage(this.subsSprite, 0, 0, this.x * this.SCALE_NUMBER, this.y * this.SCALE_NUMBER, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

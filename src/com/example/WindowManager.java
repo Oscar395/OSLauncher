@@ -88,8 +88,8 @@ public class WindowManager extends JFrame{
         initComponents();
         addSkinUI();
 
-        uvPlayerHead = new uvCapeMap(8, 8, 8, 8, 5);
-        uvPlayerHead.setBounds(10, 35, 40, 40);
+        uvPlayerHead = new uvCapeMap(8, 8, 8, 8, 4);
+        uvPlayerHead.setBounds(10, 35, 32, 32);
         uvPlayerHead.setImg(new ImageIcon(Utils.localSkinPath).getImage());
         panel1.add(uvPlayerHead);
         uvPlayerHead.repaint();
@@ -110,6 +110,9 @@ public class WindowManager extends JFrame{
         versionIcon.setLocation(280, 482);
         panel1.add(imagePanel);
         panel1.add(versionIcon);
+        if (Utils.accountType.equals("Ely.by account")) {
+            Accounts.refreshAccessToken(Utils.accessToken);
+        }
     }
 
     private void initComponents() {
@@ -261,10 +264,15 @@ public class WindowManager extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 playButton.setEnabled(false);
                 progressBar.setString("Copying Java Runtime Environment...");
+
+                //sets a java agent if the account is Ely.by account
                 if (Utils.accountType.equals("Ely.by account")) {
                     Utils.javaAgentArgs = " -javaagent:" + Utils.javaAgentPath + "=ely.by";
                 } else {
                     Utils.javaAgentArgs = "";
+                    Utils.clientToken = "";
+                    Utils.playerUUID = "9cb6a52c55bc456b9513f4cf19cdf9e3";
+                    Utils.saveUserPrefs();
                 }
                 Main.tryToCopyJre(Instance);
                 progressBar.setString("Getting Version...");
@@ -345,26 +353,26 @@ public class WindowManager extends JFrame{
         //skinPreview.setBounds(10, 90, 64, 64);
         //skinsPanel.add(skinPreview);
         skinLabel = new JLabel("Skin");
-        skinLabel.setBounds(350, 265, 200, 35);
+        skinLabel.setBounds(350, 415, 260, 35);
         skinLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         skinLabel.setHorizontalAlignment(JLabel.CENTER);
         skinLabel.setForeground(Color.WHITE);
         skinsPanel.add(skinLabel);
 
         uvSkin = new UvSkinMap(new ImageIcon(Utils.localSkinPath).getImage());
-        uvSkin.setBounds(350, 10, 200, 250);
+        uvSkin.setBounds(350, 10, 260, 400);
         uvSkin.setBackground(Color.gray);
         skinsPanel.add(uvSkin);
 
         capeLabel = new JLabel("Cape");
-        capeLabel.setBounds(555, 265, 200, 35);
+        capeLabel.setBounds(615, 415, 260, 35);
         capeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         capeLabel.setHorizontalAlignment(JLabel.CENTER);
         capeLabel.setForeground(Color.WHITE);
         skinsPanel.add(capeLabel);
 
         uvCape = new uvCapeMap(10, 17, 1, 0, 8);
-        uvCape.setBounds(555, 10, 200, 250);
+        uvCape.setBounds(615, 10, 260, 400);
         uvCape.setBackground(Color.gray);
         skinsPanel.add(uvCape);
 

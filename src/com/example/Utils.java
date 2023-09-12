@@ -30,11 +30,11 @@ public class Utils {
 
     public static String localSkinPath = userPrefs.get("localSkinPath", "images/steve.png");
 
-    public static String javaAgentPath = userPrefs.get("javaAgentPath", null);
+    public static String javaAgentPath = userPrefs.get("javaAgentPath", "");
 
-    public static String accessToken = userPrefs.get("accessToken", " ");
+    public static String accessToken = userPrefs.get("accessToken", "");
 
-    public static String clientToken = userPrefs.get("clientToken", " ");
+    public static String clientToken = userPrefs.get("clientToken", "");
 
     public static void saveUserPrefs() {
         // Save user preferences

@@ -49,6 +49,7 @@ public class WindowManager extends JFrame{
     private final Image vanillaIcon = new ImageIcon("images/vanilla_icon.png").getImage();
     private final Image optifineIcon = new ImageIcon("images/optifine_icon.png").getImage();
     private final Image snapshotIcon = new ImageIcon("images/dirt_icon.png").getImage();
+    private final Image fabricIcon = new ImageIcon("images/fabric_icon.png").getImage();
 
     public final Image accountEly_byIcon = new ImageIcon("images/Ely_by25.png").getImage();
     public final Image accountLocalIcon = new ImageIcon("images/account25.png").getImage();
@@ -108,6 +109,7 @@ public class WindowManager extends JFrame{
         add(jTabbedPane);
 
         versionIcon.setLocation(280, 482);
+        versionIcon.setBackground(Color.DARK_GRAY);
         panel1.add(imagePanel);
         panel1.add(versionIcon);
         if (Utils.accountType.equals("Ely.by account")) {
@@ -157,6 +159,9 @@ public class WindowManager extends JFrame{
                     } else if (item.contains("w")) {
                         versionIcon.setImage(snapshotIcon);
                         versionIcon.repaint();
+                    } else if (item.contains("fabric") || item.contains("Fabric")) {
+                        versionIcon.setImage(fabricIcon);
+                        versionIcon.repaint();
                     } else {
                         versionIcon.setImage(vanillaIcon);
                         versionIcon.repaint();
@@ -176,6 +181,7 @@ public class WindowManager extends JFrame{
         versionType.setBounds(660, 475, 220, 25);
         versionType.addItem("release");
         versionType.addItem("snapshot");
+        versionType.addItem("Fabric");
         versionType.addItem("old_beta");
         versionType.addItem("old_alpha");
         versionType.setUI(new CustomComboBoxUI());
@@ -183,7 +189,11 @@ public class WindowManager extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Utils.VersionType = versionType.getSelectedItem().toString();
-                jsonWriterAndReader.updateVersionsList(versionsList);
+                if (versionType.getSelectedItem().equals("Fabric")) {
+                    jsonWriterAndReader.lookForFabricVersions(versionsList);
+                } else {
+                    jsonWriterAndReader.updateVersionsList(versionsList);
+                }
                 //System.out.println(versionType.getSelectedItem().toString());
             }
         });

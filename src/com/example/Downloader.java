@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,13 +60,18 @@ public class Downloader extends Thread{
         } else if (Utils.isOptifineVersion){
             JSONObject optifineVersion = Utils.optifineVersion;
             Utils.mainClass = (String) optifineVersion.get("mainClass");
+        } else if (Utils.isFabricVersion) {
+            JSONObject fabricVersion = Utils.fabricVersion;
+            Utils.mainClass = (String) fabricVersion.get("mainClass");
         } else {
             Utils.mainClass = (String) version.get("mainClass");
         }
         String clientMappingsPath = Utils.getWorkingDirectory() + "/.minecraft/versions/" + Utils.downloadedVersion +
                 "/client.txt";
 
-        if(Files.notExists(Paths.get(clientPath))) {
+        File file = new File(clientPath);
+
+        if(Files.notExists(Paths.get(clientPath)) || file.length() == 0) {
             System.out.println("Downloading client: " + Utils.downloadedVersion);
             int bufferSize = 1024;
             try (InputStream inputStream = new URL(clientURL).openStream();

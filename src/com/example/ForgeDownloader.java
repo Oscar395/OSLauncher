@@ -18,15 +18,15 @@ public class ForgeDownloader {
 
     private long librariesSize;
 
-    private double downloadSpeedMbps = 0;
+    protected double downloadSpeedMbps = 0;
 
-    private long totalBytesRead;
+    protected long totalBytesRead;
 
-    private double bytesConverter(long bytes) {
+    protected double bytesConverter(long bytes) {
         return (double) bytes / (1024 * 1024);
     }
 
-    private void setLibrariesSize(JSONArray libraries) {
+    protected void setLibrariesSize(JSONArray libraries) {
         for (Object obj : libraries) {
             JSONObject object = (JSONObject) obj;
 

@@ -59,6 +59,11 @@ public class GameThread{
                     Utils.resetUtils();
                     process.destroy();
                 }
+                if (exitVal != 0) {
+                    System.out.println("something went wrong");
+                    WindowManager.Instance.playButton.setEnabled(true);
+                    Utils.resetUtils();
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

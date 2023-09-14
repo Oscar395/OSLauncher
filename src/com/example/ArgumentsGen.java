@@ -19,9 +19,43 @@ public class ArgumentsGen {
                     + genExtraArguments() + genGameArguments() + " " + genForgeGameArguments();
         } else if (Utils.isOptifineVersion){
             return genJreArguments() + genJVMArguments() + " -cp " + getclassPaths() + genExtraArguments() + genGameArguments() + genOptifineGameArgs();
+        } else if (Utils.isFabricVersion) {
+            return genJreArguments() + genJVMArguments() + " -cp " + getclassPaths() + " " + genFabricJVMArgs()
+                    + genExtraArguments() + genGameArguments() + " " + genFabricGameArgs();
         } else {
             return genJreArguments() + genJVMArguments() + " -cp " + getclassPaths() + genExtraArguments() + genGameArguments();
         }
+    }
+
+    private String genFabricJVMArgs() {
+        JSONObject arguments = (JSONObject) Utils.fabricVersion.get("arguments");
+
+        JSONArray jvmArgs = (JSONArray) arguments.get("jvm");
+        StringJoiner joiner = new StringJoiner(" ");
+
+        for (Object o: jvmArgs) {
+            String element = (String) o;
+            joiner.add("\"" + element + "\"");
+        }
+
+        return joiner.toString();
+    }
+
+    private String genFabricGameArgs() {
+        JSONObject fabricVersion = Utils.fabricVersion;
+
+        StringJoiner gameArgs = new StringJoiner(" ");
+
+        if (fabricVersion.containsKey("arguments")) {
+            JSONObject arguments = (JSONObject) fabricVersion.get("arguments");
+            JSONArray game = (JSONArray) arguments.get("game");
+
+            for (Object o: game) {
+                String args = (String) o;
+                gameArgs.add(args);
+            }
+        }
+        return gameArgs.toString();
     }
 
     private String genOptifineGameArgs() {

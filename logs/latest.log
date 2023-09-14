@@ -1,78 +1,36 @@
-[23:42:26] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
-[23:42:28] [main/INFO]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
-[23:42:28] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
-[23:42:29] [main/INFO]: Forge Mod Loader version 14.23.5.2859 for Minecraft 1.12.2 loading
-[23:42:29] [main/INFO]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_202, running on Windows 10:amd64:10.0, installed at C:\Users\oooooo\AppData\Roaming\.minecraft\runtime\jre-legacy
-[23:42:29] [main/INFO]: Searching C:\Users\oooooo\AppData\Roaming\.minecraft\mods for mods
-[23:42:29] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
-[23:42:29] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
-[23:42:29] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
-[23:42:29] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
-[23:42:29] [main/INFO]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
-[23:42:42] [main/INFO]: Found valid fingerprint for Minecraft Forge. Certificate fingerprint e3c3d50c7c986df74c645c0ac54639741c90a557
-[23:42:42] [main/INFO]: Found valid fingerprint for Minecraft. Certificate fingerprint cd99959656f753dc28d863b46769f7f8fbaefcfc
-[23:42:42] [main/INFO]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
-[23:42:42] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
-[23:42:45] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
-[23:42:45] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
-[23:42:46] [main/INFO]: Launching wrapped minecraft {net.minecraft.client.main.Main}
-[23:42:55] [Client thread/INFO]: Setting user: Usuario
-[23:43:25] [Client thread/WARN]: Skipping bad option: lastServer:
-[23:43:25] [Client thread/INFO]: LWJGL Version: 2.9.4
-[23:43:31] [Client thread/INFO]: -- System Details --
-Details:
-	Minecraft Version: 1.12.2
-	Operating System: Windows 10 (amd64) version 10.0
-	Java Version: 1.8.0_202, Oracle Corporation
-	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
-	Memory: 930762160 bytes (887 MB) / 1073741824 bytes (1024 MB) up to 2147483648 bytes (2048 MB)
-	JVM Flags: 8 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xmx2G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M
-	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
-	FML: 
-	Loaded coremods (and transformers): 
-	GL info: ' Vendor: 'Intel' Version: '4.6.0 - Build 27.20.100.8681' Renderer: 'Intel(R) UHD Graphics 600'
-[23:43:33] [Client thread/INFO]: MinecraftForge v14.23.5.2859 Initialized
-[23:43:33] [Client thread/INFO]: Starts to replace vanilla recipe ingredients with ore ingredients.
-[23:43:35] [Client thread/INFO]: Invalid recipe found with multiple oredict ingredients in the same ingredient...
-[23:43:36] [Client thread/INFO]: Replaced 1227 ore ingredients
-[23:43:38] [Client thread/INFO]: Searching C:\Users\oooooo\AppData\Roaming\.minecraft\mods for mods
-[23:43:43] [Thread-3/INFO]: Using alternative sync timing : 200 frames of Display.update took 1743323100 nanos
-[23:43:46] [Client thread/INFO]: Forge Mod Loader has identified 4 mods to load
-[23:43:49] [Client thread/INFO]: Attempting connection with missing mods [minecraft, mcp, FML, forge] at CLIENT
-[23:43:49] [Client thread/INFO]: Attempting connection with missing mods [minecraft, mcp, FML, forge] at SERVER
-[23:43:51] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
-[23:43:53] [Client thread/INFO]: Processing ObjectHolder annotations
-[23:43:53] [Client thread/INFO]: Found 1168 ObjectHolder annotations
-[23:43:53] [Client thread/INFO]: Identifying ItemStackHolder annotations
-[23:43:54] [Client thread/INFO]: Found 0 ItemStackHolder annotations
-[23:43:54] [Client thread/INFO]: Configured a dormant chunk cache size of 0
-[23:43:54] [Client thread/INFO]: Applying holder lookups
-[23:43:54] [Client thread/INFO]: Holder lookups applied
-[23:43:54] [Client thread/INFO]: Applying holder lookups
-[23:43:55] [Forge Version Check/INFO]: [forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
-[23:43:55] [Client thread/INFO]: Holder lookups applied
-[23:43:55] [Client thread/INFO]: Applying holder lookups
-[23:43:55] [Client thread/INFO]: Holder lookups applied
-[23:43:55] [Client thread/INFO]: Applying holder lookups
-[23:43:55] [Client thread/INFO]: Holder lookups applied
-[23:43:55] [Client thread/INFO]: Injecting itemstacks
-[23:43:55] [Client thread/INFO]: Itemstack injection complete
-[23:44:03] [Forge Version Check/INFO]: [forge] Found status: UP_TO_DATE Target: null
-[23:44:03] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[23:44:04] [Thread-5/INFO]: Initializing LWJGL OpenAL
-[23:44:04] [Thread-5/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[23:44:11] [Thread-5/INFO]: OpenAL initialized.
-[23:44:11] [Sound Library Loader/INFO]: Sound engine started
-[23:44:26] [Client thread/INFO]: Max texture size: 8192
-[23:44:43] [Client thread/INFO]: Created: 512x512 textures-atlas
-[23:44:57] [Client thread/INFO]: Applying holder lookups
-[23:44:57] [Client thread/INFO]: Holder lookups applied
-[23:44:57] [Client thread/INFO]: Injecting itemstacks
-[23:44:57] [Client thread/INFO]: Itemstack injection complete
-[23:45:00] [Client thread/INFO]: Forge Mod Loader has successfully loaded 4 mods
-[23:45:00] [Client thread/WARN]: Skipping bad option: lastServer:
-[23:45:01] [Client thread/INFO]: Narrator library for x64 successfully loaded
-[23:45:01] [Client thread/ERROR]: Realms module missing
-[23:45:23] [Client thread/INFO]: Stopping!
-[23:45:23] [Client thread/INFO]: SoundSystem shutting down...
-[23:45:23] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[22:28:40] [main/INFO]: Setting user: Usuario
+[22:28:40] [main/INFO]: (Session ID is token:c01431e9c85e8e141730c2e2015ee64420243e9089591a0b6ab964b961aa1bbf:9cb6a52c55bc456b9513f4cf19cdf9e3)
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.attack:key.mouse.left
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.use:key.mouse.right
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.forward:key.keyboard.w
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.left:key.keyboard.a
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.back:key.keyboard.s
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.right:key.keyboard.d
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.jump:key.keyboard.space
+[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.sneak:key.keyboard.left.shift
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.sprint:key.keyboard.left.control
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.drop:key.keyboard.q
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.inventory:key.keyboard.e
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.chat:key.keyboard.t
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.playerlist:key.keyboard.tab
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.pickItem:key.mouse.middle
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.command:key.keyboard.slash
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.screenshot:key.keyboard.f2
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.togglePerspective:key.keyboard.f5
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.smoothCamera:key.keyboard.unknown
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.fullscreen:key.keyboard.f11
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.1:key.keyboard.1
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.2:key.keyboard.2
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.3:key.keyboard.3
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.4:key.keyboard.4
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.5:key.keyboard.5
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.6:key.keyboard.6
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.7:key.keyboard.7
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.8:key.keyboard.8
+[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.9:key.keyboard.9
+[22:28:42] [Client thread/INFO]: LWJGL Version: 2.9.1
+[22:28:43] [Client thread/INFO]: Reloading ResourceManager: Default
+[22:28:46] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[22:28:47] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[22:28:47] [Sound Library Loader/INFO]: Sound engine started
+[22:30:40] [Client thread/INFO]: Stopping!

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -21,16 +22,8 @@ import java.util.*;
 public class JsonWriterAndReader {
 
     private JSONObject versionsList;
+    private JSONArray fabricVersions;
     public List<String> jvmArguments = new ArrayList<>();
-
-    public String natives_directory;
-    public String launcher_name;
-    public String launcher_version;
-    public String[] classpaths;
-    public String classpath_separator;
-    public String primary_jar;
-    public String library_directory;
-    public String game_directory;
 
     public void readVersionsList(JComboBox versionsBox) {
         try {
@@ -162,9 +155,35 @@ public class JsonWriterAndReader {
         JSONParser parser = new JSONParser();
 
         try {
-            FileReader reader = new FileReader(path);
-            Object obj = parser.parse(reader);
-            JSONObject Versionjson = (JSONObject) obj;
+
+            JSONObject Versionjson = null;
+            if (Files.exists(Paths.get(path))) {
+                FileReader reader = new FileReader(path);
+                Object obj = parser.parse(reader);
+                Versionjson = (JSONObject) obj;
+            } else {
+                if (selectedVersion.contains("Fabric")) {
+                    String version = selectedVersion.replace("Fabric-", "");
+                    String fabricJsonUrl = "https://meta.fabricmc.net/v2/versions/loader/" + version + "/0.14.22/profile/json";
+
+                    try {
+                        String versionPath = Utils.getWorkingDirectory() + "\\.minecraft\\versions\\" + selectedVersion;
+                        Files.createDirectories(Paths.get(versionPath));
+
+                        String path1 = versionPath + "\\" + selectedVersion + ".json";
+                        InputStream in = new URL(fabricJsonUrl).openStream();
+                        Files.copy(in , Paths.get(path1), StandardCopyOption.REPLACE_EXISTING);
+
+                        FileReader reader2 = new FileReader(path1);
+                        Object object = parser.parse(reader2);
+                        Versionjson = (JSONObject) object;
+
+                        System.out.println("fabric version json downloaded successfully");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
             if (selectedVersion.contains("OptiFine")) {
                 String inheritsFrom = (String) Versionjson.get("inheritsFrom");
@@ -191,9 +210,44 @@ public class JsonWriterAndReader {
                 Utils.auth_player_name = WindowManager.Instance.playerNameField.getText();
                 Utils.saveUserPrefs();
 
-                FileReader reader2 = new FileReader(inheritsPath);
-                Object object = parser.parse(reader2);
-                JSONObject inheritsVersion = (JSONObject) object;
+                JSONObject inheritsVersion = null;
+                if (Files.exists(Paths.get(inheritsPath))) {
+                    FileReader reader2 = new FileReader(inheritsPath);
+                    Object object = parser.parse(reader2);
+                    inheritsVersion = (JSONObject) object;
+                } else {
+                    inheritsVersion = downloadInheritsVersion(inheritsFrom);
+                }
+
+                //Downloads Vanilla assets
+                downloadAssets(inheritsVersion, progressBar);
+
+                return;
+            }
+
+            if (selectedVersion.contains("fabric") || selectedVersion.contains("Fabric")) {
+                String inheritsFrom = (String) Versionjson.get("inheritsFrom");
+                String inheritsPath = Utils.getWorkingDirectory() + "\\.minecraft\\versions\\" + inheritsFrom +
+                        "\\" + inheritsFrom + ".json";
+
+                FabricDownloader fabricDownloader = new FabricDownloader();
+                fabricDownloader.downloadLibraries(Versionjson, progressBar);
+
+                Utils.isFabricVersion = true;
+                Utils.fabricVersion = Versionjson;
+                Utils.downloadedVersion = selectedVersion;
+                Utils.version_name = selectedVersion;
+                Utils.auth_player_name = WindowManager.Instance.playerNameField.getText();
+                Utils.saveUserPrefs();
+
+                JSONObject inheritsVersion = null;
+                if (Files.exists(Paths.get(inheritsPath))) {
+                    FileReader reader2 = new FileReader(inheritsPath);
+                    Object object = parser.parse(reader2);
+                    inheritsVersion = (JSONObject) object;
+                } else {
+                    inheritsVersion = downloadInheritsVersion(inheritsFrom);
+                }
 
                 //Downloads Vanilla assets
                 downloadAssets(inheritsVersion, progressBar);
@@ -219,12 +273,18 @@ public class JsonWriterAndReader {
                 Utils.auth_player_name = WindowManager.Instance.playerNameField.getText();
                 Utils.saveUserPrefs();
 
-                FileReader reader2 = new FileReader(inheritsPath);
-                Object object = parser.parse(reader2);
-                JSONObject inheritsVersion = (JSONObject) object;
-
+                JSONObject inheritsVersion = null;
+                if(Files.exists(Paths.get(inheritsPath))) {
+                    FileReader reader2 = new FileReader(inheritsPath);
+                    Object object = parser.parse(reader2);
+                    inheritsVersion = (JSONObject) object;
+                } else {
+                    inheritsVersion = downloadInheritsVersion(inheritsFrom);
+                }
                 //Downloads Vanilla assets
-                downloadAssets(inheritsVersion, progressBar);
+                if (inheritsVersion != null) {
+                    downloadAssets(inheritsVersion, progressBar);
+                }
             } else {
                 Utils.downloadedVersion = (String) Versionjson.get("id");
                 Utils.version_name = (String) Versionjson.get("id");
@@ -238,6 +298,39 @@ public class JsonWriterAndReader {
         } catch (ParseException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private JSONObject downloadInheritsVersion(String inheritsFrom) {
+        JSONArray versionsArray = (JSONArray) versionsList.get("versions");
+        JSONObject returnObject = null;
+
+        for (Object o : versionsArray) {
+            JSONObject version = (JSONObject) o;
+            if (version.get("id").equals(inheritsFrom)) {
+                try {
+                    String versionsPath = Utils.getWorkingDirectory() + "\\.minecraft\\versions\\" +
+                            version.get("id");
+                    final Path dir = Paths.get(versionsPath);
+                    Files.createDirectories(dir);
+
+                    String path1 = versionsPath + "\\" + version.get("id") + ".json";
+                    if(Files.notExists(Paths.get(path1))) {
+                        InputStream in = new URL((String) version.get("url")).openStream();
+                        Files.copy(in , Paths.get(path1), StandardCopyOption.REPLACE_EXISTING);
+                    }
+
+                    JSONParser parser = new JSONParser();
+
+                    FileReader reader2 = new FileReader(path1);
+                    Object object = parser.parse(reader2);
+                    returnObject = (JSONObject) object;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+        return returnObject;
     }
 
     private void downloadAssets(JSONObject version, JProgressBar progressBar) throws IOException, ParseException {
@@ -276,13 +369,40 @@ public class JsonWriterAndReader {
         downloader.start();
     }
 
+    public void lookForFabricVersions(JComboBox comboBox) {
+        comboBox.removeAllItems();
+        if (versionsList != null) {
+            try {
+                if (fabricVersions == null) {
+                    URL gameVersionsURL = new URL("https://meta.fabricmc.net/v2/versions/game");
+                    String json = IOUtils.toString(gameVersionsURL, StandardCharsets.UTF_8);
+
+                    Object obj = JSONValue.parse(json);
+                    fabricVersions = (JSONArray) obj;
+                }
+
+                for (Object o: fabricVersions) {
+                    JSONObject object = (JSONObject) o;
+
+                    if ((boolean) object.get("stable")) {
+                        String version = (String) object.get("version");
+                        comboBox.addItem("Fabric-" + version);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            updateVersionsList(comboBox);
+        }
+    }
 
     private void setAllVersions(JSONObject versionsList, JComboBox versionsBox) {
-        JSONArray versions = (JSONArray) versionsList.get("versions");
-
         versionsBox.removeAllItems();
 
         listOfflineVersions(versionsBox);
+
+        JSONArray versions = (JSONArray) versionsList.get("versions");
 
         for (Object o : versions) {
             JSONObject version = (JSONObject) o;

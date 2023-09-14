@@ -66,8 +66,10 @@ public class Utils {
 
     public static boolean isForgeVersion = false;
     public static boolean isOptifineVersion = false;
+    public static boolean isFabricVersion = false;
     public static JSONObject optifineVersion;
     public static JSONObject forgeVersion;
+    public static JSONObject fabricVersion;
 
     public static String getWorkingDirectory() {
         return System.getenv("APPDATA");

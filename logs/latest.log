@@ -1,36 +1,105 @@
-[22:28:40] [main/INFO]: Setting user: Usuario
-[22:28:40] [main/INFO]: (Session ID is token:c01431e9c85e8e141730c2e2015ee64420243e9089591a0b6ab964b961aa1bbf:9cb6a52c55bc456b9513f4cf19cdf9e3)
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.attack:key.mouse.left
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.use:key.mouse.right
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.forward:key.keyboard.w
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.left:key.keyboard.a
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.back:key.keyboard.s
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.right:key.keyboard.d
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.jump:key.keyboard.space
-[22:28:41] [Client thread/WARN]: Skipping bad option: key_key.sneak:key.keyboard.left.shift
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.sprint:key.keyboard.left.control
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.drop:key.keyboard.q
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.inventory:key.keyboard.e
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.chat:key.keyboard.t
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.playerlist:key.keyboard.tab
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.pickItem:key.mouse.middle
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.command:key.keyboard.slash
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.screenshot:key.keyboard.f2
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.togglePerspective:key.keyboard.f5
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.smoothCamera:key.keyboard.unknown
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.fullscreen:key.keyboard.f11
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.1:key.keyboard.1
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.2:key.keyboard.2
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.3:key.keyboard.3
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.4:key.keyboard.4
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.5:key.keyboard.5
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.6:key.keyboard.6
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.7:key.keyboard.7
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.8:key.keyboard.8
-[22:28:42] [Client thread/WARN]: Skipping bad option: key_key.hotbar.9:key.keyboard.9
-[22:28:42] [Client thread/INFO]: LWJGL Version: 2.9.1
-[22:28:43] [Client thread/INFO]: Reloading ResourceManager: Default
-[22:28:46] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:28:47] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:28:47] [Sound Library Loader/INFO]: Sound engine started
-[22:30:40] [Client thread/INFO]: Stopping!
+[17:45:29] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.FMLTweaker
+[17:45:29] [main/INFO]: Using primary tweak class name cpw.mods.fml.common.launcher.FMLTweaker
+[17:45:29] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLTweaker
+[17:45:29] [main/INFO]: Forge Mod Loader version 7.99.40.1614 for Minecraft 1.7.10 loading
+[17:45:29] [main/INFO]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_202, running on Windows 10:amd64:10.0, installed at C:\Users\oooooo\AppData\Roaming\.minecraft\runtime\jre-legacy
+[17:45:29] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[17:45:29] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[17:45:29] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[17:45:29] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[17:45:29] [main/INFO]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[17:45:32] [main/INFO]: Found valid fingerprint for Minecraft Forge. Certificate fingerprint e3c3d50c7c986df74c645c0ac54639741c90a557
+[17:45:32] [main/INFO]: Found valid fingerprint for Minecraft. Certificate fingerprint cd99959656f753dc28d863b46769f7f8fbaefcfc
+[17:45:32] [main/INFO]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[17:45:32] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[17:45:33] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.TerminalTweaker
+[17:45:33] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.TerminalTweaker
+[17:45:34] [main/INFO]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[17:45:35] [main/INFO]: Setting user: Usuario
+[17:45:37] [Client thread/INFO]: LWJGL Version: 2.9.1
+[17:45:40] [Client thread/INFO]: [cpw.mods.fml.client.SplashProgress:start:188]: ---- Minecraft Crash Report ----
+// Why did you do that?
+
+Time: 14/09/23 05:45 PM
+Description: Loading screen debug info
+
+This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.7.10
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_202, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 136108720 bytes (129 MB) / 201326592 bytes (192 MB) up to 2147483648 bytes (2048 MB)
+	JVM Flags: 8 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xmx2G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M
+	AABB Pool Size: 0 (0 bytes; 0 MB) allocated, 0 (0 bytes; 0 MB) used
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: 
+	GL info: ' Vendor: 'Intel' Version: '4.6.0 - Build 27.20.100.8681' Renderer: 'Intel(R) UHD Graphics 600'
+[17:45:41] [Client thread/INFO]: Attempting early MinecraftForge initialization
+[17:45:41] [Client thread/INFO]: MinecraftForge v10.13.4.1614 Initialized
+[17:45:41] [Client thread/INFO]: Replaced 183 ore recipies
+[17:45:41] [Client thread/INFO]: Completed early MinecraftForge initialization
+[17:45:42] [Client thread/INFO]: Found 0 mods from the command line. Injecting into mod discoverer
+[17:45:42] [Client thread/INFO]: Searching C:\Users\oooooo\AppData\Roaming\.minecraft\mods for mods
+[17:45:54] [Client thread/INFO]: Forge Mod Loader has identified 3 mods to load
+[17:45:55] [Client thread/INFO]: Attempting connection with missing mods [mcp, FML, Forge] at CLIENT
+[17:45:55] [Client thread/INFO]: Attempting connection with missing mods [mcp, FML, Forge] at SERVER
+[17:45:56] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
+[17:45:56] [Client thread/INFO]: Processing ObjectHolder annotations
+[17:45:56] [Client thread/INFO]: Found 341 ObjectHolder annotations
+[17:45:56] [Client thread/INFO]: Identifying ItemStackHolder annotations
+[17:45:56] [Client thread/INFO]: Found 0 ItemStackHolder annotations
+[17:45:56] [Client thread/INFO]: Configured a dormant chunk cache size of 0
+[17:45:56] [Client thread/INFO]: Applying holder lookups
+[17:45:56] [Client thread/INFO]: Holder lookups applied
+[17:45:56] [Client thread/INFO]: Injecting itemstacks
+[17:45:56] [Client thread/INFO]: Itemstack injection complete
+[17:45:57] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:45:57] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Starting up SoundSystem...
+[17:45:58] [Thread-8/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Initializing LWJGL OpenAL
+[17:45:58] [Thread-8/INFO]: [paulscode.sound.SoundSystemLogger:message:69]:     (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING at line 1 column 1
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.Gson.fromJson(Gson.java:815)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.Gson.fromJson(Gson.java:768)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.Gson.fromJson(Gson.java:717)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.Gson.fromJson(Gson.java:689)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at net.minecraftforge.common.ForgeVersion$1.run(ForgeVersion.java:94)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: Caused by: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING at line 1 column 1
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.stream.JsonReader.beginObject(JsonReader.java:374)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.internal.bind.MapTypeAdapterFactory$Adapter.read(MapTypeAdapterFactory.java:183)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.internal.bind.MapTypeAdapterFactory$Adapter.read(MapTypeAdapterFactory.java:145)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	at com.google.gson.Gson.fromJson(Gson.java:803)
+[17:45:58] [Forge Version Check/INFO]: [java.lang.Throwable$WrappedPrintStream:println:-1]: 	... 4 more
+[17:46:01] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[17:46:01] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[17:46:01] [Client thread/INFO]: Injecting itemstacks
+[17:46:01] [Client thread/INFO]: Itemstack injection complete
+[17:46:02] [Client thread/INFO]: Forge Mod Loader has successfully loaded 3 mods
+[17:46:02] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
+[17:46:02] [Thread-8/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: OpenAL initialized.
+[17:46:02] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:46:02] [Sound Library Loader/INFO]: Sound engine started
+[17:46:03] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[17:46:04] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[17:46:04] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:46:04] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: SoundSystem shutting down...
+[17:46:05] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:importantMessage:90]:     Author: Paul Lamb, www.paulscode.com
+[17:46:05] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:46:05] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:46:05] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Starting up SoundSystem...
+[17:46:05] [Thread-10/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Initializing LWJGL OpenAL
+[17:46:05] [Thread-10/INFO]: [paulscode.sound.SoundSystemLogger:message:69]:     (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[17:46:06] [Thread-10/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: OpenAL initialized.
+[17:46:06] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:46:06] [Sound Library Loader/INFO]: Sound engine started
+[17:47:31] [Client thread/INFO]: Stopping!
+[17:47:31] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[17:47:31] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: SoundSystem shutting down...
+[17:47:32] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:importantMessage:90]:     Author: Paul Lamb, www.paulscode.com
+[17:47:32] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 

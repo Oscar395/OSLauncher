@@ -23,6 +23,7 @@ public class JsonWriterAndReader {
 
     private JSONObject versionsList;
     private JSONArray fabricVersions;
+    private JSONArray forgeVersions;
     public List<String> jvmArguments = new ArrayList<>();
 
     public void readVersionsList(JComboBox versionsBox) {
@@ -179,6 +180,24 @@ public class JsonWriterAndReader {
                         Versionjson = (JSONObject) object;
 
                         System.out.println("fabric version json downloaded successfully");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (selectedVersion.contains("forge")) {
+                    String forgeJsonUrl = "https://oscar395.github.io/oslauncher-repository/" + selectedVersion + ".json";
+
+                    try {
+                        String versionPath = Utils.getWorkingDirectory() + "\\.minecraft\\versions\\" + selectedVersion;
+                        Files.createDirectories(Paths.get(versionPath));
+
+                        String jsonPath = versionPath + "\\" + selectedVersion + ".json";
+                        InputStream in = new URL(forgeJsonUrl).openStream();
+                        Files.copy(in, Paths.get(jsonPath), StandardCopyOption.REPLACE_EXISTING);
+
+                        FileReader jsonReader = new FileReader(jsonPath);
+                        Object objeto = parser.parse(jsonReader);
+                        Versionjson = (JSONObject) objeto;
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -388,6 +407,32 @@ public class JsonWriterAndReader {
                         String version = (String) object.get("version");
                         comboBox.addItem("Fabric-" + version);
                     }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            updateVersionsList(comboBox);
+        }
+    }
+
+    public void lookForForgeVersions(JComboBox comboBox) {
+        comboBox.removeAllItems();
+        if (versionsList != null) {
+            try {
+                if (forgeVersions == null) {
+                    URL forgeVersionsURL = new URL("https://oscar395.github.io/oslauncher-repository/forge-versions.json");
+                    String json = IOUtils.toString(forgeVersionsURL, StandardCharsets.UTF_8);
+
+                    Object obj = JSONValue.parse(json);
+                    JSONObject versions = (JSONObject) obj;
+                    forgeVersions = (JSONArray) versions.get("versions");
+                }
+
+                for (Object o: forgeVersions) {
+                    JSONObject object = (JSONObject) o;
+
+                    comboBox.addItem(object.get("name"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

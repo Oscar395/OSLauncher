@@ -81,15 +81,18 @@ public class ArgumentsGen {
 
         if (forgeVersion.containsKey("arguments")) {
             JSONObject arguments = (JSONObject) forgeVersion.get("arguments");
-            JSONArray jvm = (JSONArray) arguments.get("jvm");
 
-            for (Object o: jvm) {
-                String value = (String) o;
+            if (arguments.containsKey("jvm")) {
+                JSONArray jvm = (JSONArray) arguments.get("jvm");
 
-                String fixedValue = value.replace("${version_name}", Utils.downloadedVersion)
-                        .replace("${library_directory}", Utils.library_directory)
-                        .replace("${classpath_separator}", ";");
-                forgeJVMArguments.add(fixedValue);
+                for (Object o: jvm) {
+                    String value = (String) o;
+
+                    String fixedValue = value.replace("${version_name}", Utils.downloadedVersion)
+                            .replace("${library_directory}", Utils.library_directory)
+                            .replace("${classpath_separator}", ";");
+                    forgeJVMArguments.add(fixedValue);
+                }
             }
         }
 

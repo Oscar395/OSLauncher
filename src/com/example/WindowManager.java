@@ -181,6 +181,7 @@ public class WindowManager extends JFrame{
         versionType.setBounds(660, 475, 220, 25);
         versionType.addItem("release");
         versionType.addItem("snapshot");
+        versionType.addItem("Forge");
         versionType.addItem("Fabric");
         versionType.addItem("old_beta");
         versionType.addItem("old_alpha");
@@ -191,6 +192,8 @@ public class WindowManager extends JFrame{
                 Utils.VersionType = versionType.getSelectedItem().toString();
                 if (versionType.getSelectedItem().equals("Fabric")) {
                     jsonWriterAndReader.lookForFabricVersions(versionsList);
+                } else if (versionType.getSelectedItem().equals("Forge")) {
+                    jsonWriterAndReader.lookForForgeVersions(versionsList);
                 } else {
                     jsonWriterAndReader.updateVersionsList(versionsList);
                 }

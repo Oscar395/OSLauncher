@@ -204,6 +204,12 @@ public class ForgeDownloader {
                                 totalBytesReadMBFormatted + "mb" + "/" + totalLibrariesSizeF + "mb " + decimalFormat.format(downloadSpeedMbps) + " Mbps"); // Update text
                     });
 
+                    if (url.equals("")) {
+                        int jarNameIndex = path.lastIndexOf("/") + 1;
+                        String jarName = path.substring(jarNameIndex);
+                        url = "https://oscar395.github.io/oslauncher-repository/data/" + jarName;
+                    }
+
                     try (InputStream inputStream = new URL(url).openStream();
                          FileOutputStream outputStream = new FileOutputStream(finalPath)) {
                         long startTime = System.currentTimeMillis();

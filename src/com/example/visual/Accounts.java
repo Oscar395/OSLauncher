@@ -63,6 +63,7 @@ public class Accounts extends JFrame {
         panel.setLayout(null);
 
         logoPanel = new ImagePanel(account);
+        logoPanel.setBackground(Color.DARK_GRAY);
         logoPanel.setLocation(115, 70);
 
         accountTypeLbl = new JLabel("Account Type:");
@@ -350,8 +351,10 @@ public class Accounts extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String filePath = accountList.getSelectedValue().getLocalPath();
                 String accountType = accountList.getSelectedValue().getType();
+                String localSkinPath = accountList.getSelectedValue().getLocalSkinPath();
                 try {
                     Files.delete(Paths.get(filePath));
+                    Files.delete(Paths.get(localSkinPath));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

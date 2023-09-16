@@ -60,7 +60,8 @@ public class GameThread{
                     process.destroy();
                 }
                 if (exitVal != 0) {
-                    System.out.println("something went wrong");
+                    System.out.println("Something went wrong");
+                    System.out.println("Exit value " + exitVal);
                     WindowManager.Instance.playButton.setEnabled(true);
                     Utils.resetUtils();
                 }

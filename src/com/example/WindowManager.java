@@ -181,6 +181,7 @@ public class WindowManager extends JFrame{
         versionType.setBounds(660, 475, 220, 25);
         versionType.addItem("release");
         versionType.addItem("snapshot");
+        versionType.addItem("OptiFine");
         versionType.addItem("Forge");
         versionType.addItem("Fabric");
         versionType.addItem("old_beta");
@@ -194,6 +195,8 @@ public class WindowManager extends JFrame{
                     jsonWriterAndReader.lookForFabricVersions(versionsList);
                 } else if (versionType.getSelectedItem().equals("Forge")) {
                     jsonWriterAndReader.lookForForgeVersions(versionsList);
+                } else if (versionType.getSelectedItem().equals("OptiFine")) {
+                    jsonWriterAndReader.lookForOptiFineVersions(versionsList);
                 } else {
                     jsonWriterAndReader.updateVersionsList(versionsList);
                 }
@@ -289,6 +292,7 @@ public class WindowManager extends JFrame{
                 }
                 Main.tryToCopyJre(Instance);
                 progressBar.setString("Getting Version...");
+
                 jsonWriterAndReader.downloadSelectedVersion(versionsList, progressBar);
             }
         });
@@ -456,6 +460,13 @@ public class WindowManager extends JFrame{
                 }
 
             } catch (Exception e) {
+                Utils.accountLocalPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\Player.json";
+                Utils.localSkinPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\skins\\Player.png";
+                Utils.playerUUID = "9cb6a52c55bc456b9513f4cf19cdf9e3";
+                Utils.auth_player_name = "Player";
+                playerNameField.setText("Player");
+                Utils.saveUserPrefs();
+
                 e.printStackTrace();
             }
         }

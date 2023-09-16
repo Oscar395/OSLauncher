@@ -1,8 +1,14 @@
 package com.example;
 
+import com.example.visual.UvSkinMap;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
@@ -29,6 +35,7 @@ public class Main {
 
     public static void makeLauncherProfiles() {
         String minecraftPath = Utils.getWorkingDirectory() + "\\.minecraft\\launcher_profiles.json";
+
         if (Files.notExists(Paths.get(minecraftPath))) {
 
             String json = "{\n" +
@@ -74,6 +81,54 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
+        String firstLocalAccount = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\Player.json";
+
+        if (Files.notExists(Paths.get(firstLocalAccount))) {
+            String localSkinPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\skins\\Player.png";
+            //String localPath = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\Ely.by\\Player.json";
+
+            String jsonFile = "{\n" +
+                    "   \"localSkinPath\":" +
+                    "\"" + localSkinPath + "\",\n" +
+                    "   \"name\":\"Player\",\n" +
+                    "   \"localPath\":" +
+                    "\"" + firstLocalAccount + "\",\n" +
+                    "   \"id\":\"9cb6a52c55bc456b9513f4cf19cdf9e3\",\n" +
+                    "   \"type\":\"Local account\",\n" +
+                    "   \"accessToken\":\"\"\n" +
+                    "}";
+
+            Path directoryPath = Paths.get(firstLocalAccount).getParent();
+            if (directoryPath != null){
+                try {
+                    Files.createDirectories(directoryPath);
+                    Files.createDirectories(Paths.get(localSkinPath).getParent());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(firstLocalAccount))){
+                writer.write(jsonFile);
+                System.out.println("Player json written successfully");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedImage skin = UvSkinMap.toBufferedImage(new ImageIcon(Utils.localSkinPath).getImage());
+                ImageIO.write(skin, "png", new File(localSkinPath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Utils.accountLocalPath = firstLocalAccount;
+            Utils.localSkinPath = localSkinPath;
+            Utils.playerUUID = "9cb6a52c55bc456b9513f4cf19cdf9e3";
+            Utils.auth_player_name = "Player";
+            Utils.saveUserPrefs();
+        }
     }
 
     public static void copyJavaAgent() {
@@ -112,27 +167,29 @@ public class Main {
             Path destinationLegacy = Paths.get(Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy");
             Path destinationGamma = Paths.get(Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\java-runtime-gamma");
 
-            List<String> primaryFolders = listPrimaryFolders(source);
+            if (Files.notExists(destinationLegacy) || Files.notExists(destinationGamma)) {
+                List<String> primaryFolders = listPrimaryFolders(source);
 
-            for (String folder: primaryFolders) {
-                if (folder.contains("jdk")) {
-                    source = "C:\\Program Files\\Java\\" + folder;
-                    Path jdkPath = Paths.get(source);
-                    if (pathContainsFolder(jdkPath, "jre")){
-                        source = "C:\\Program Files\\Java\\" + folder + "\\" + "jre";
+                for (String folder: primaryFolders) {
+                    if (folder.contains("jdk")) {
+                        source = "C:\\Program Files\\Java\\" + folder;
+                        Path jdkPath = Paths.get(source);
+                        if (pathContainsFolder(jdkPath, "jre")){
+                            source = "C:\\Program Files\\Java\\" + folder + "\\" + "jre";
+                            if (Files.notExists(destinationLegacy)) {
+                                copyRuntime(destinationLegacy, Paths.get(source), frame);
+                            }
+                        } else {
+                            if (Files.notExists(destinationGamma)) {
+                                copyRuntime(destinationGamma, Paths.get(source), frame);
+                            }
+                        }
+
+                    } else if (folder.contains("jre")) {
+                        source = "C:\\Program Files\\Java\\" + folder;
                         if (Files.notExists(destinationLegacy)) {
                             copyRuntime(destinationLegacy, Paths.get(source), frame);
                         }
-                    } else {
-                        if (Files.notExists(destinationGamma)) {
-                            copyRuntime(destinationGamma, Paths.get(source), frame);
-                        }
-                    }
-
-                } else if (folder.contains("jre")) {
-                    source = "C:\\Program Files\\Java\\" + folder;
-                    if (Files.notExists(destinationLegacy)) {
-                        copyRuntime(destinationLegacy, Paths.get(source), frame);
                     }
                 }
             }

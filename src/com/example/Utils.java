@@ -97,6 +97,8 @@ public class Utils {
         downloadedVersion = "";
         isForgeVersion = false;
         isOptifineVersion = false;
+        isFabricVersion = false;
+        fabricVersion = null;
         forgeVersion = null;
         classPaths.clear();
         natives_directory = null;

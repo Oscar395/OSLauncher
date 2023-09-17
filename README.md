@@ -1,4 +1,5 @@
-# OSLauncher
+# OSLauncher  ![icon40](https://github.com/Oscar395/OSLauncher/assets/71895090/441cad35-4c39-473b-8cf9-29a1e7b48798)
+
 ## A fully functional minecraft launcher written in java, with integrated mod loaders like Forge and Fabric
 
 This project has been made with the intention of provinding an alternative for the already existing minecraft launchers, made to be lightweight and easy to use, it also provides OptiFine installation within the launcher.These are the features that the launcher already offers:
@@ -17,9 +18,21 @@ This project has been made with the intention of provinding an alternative for t
 
 * Forge (1.7.10 - 1.20.1)
 
-![forge2](https://github.com/Oscar395/OSLauncher/assets/71895090/662ff5c0-d0c2-4940-9752-54ba5bf02c32)
+![forge3](https://github.com/Oscar395/OSLauncher/assets/71895090/931ad972-2ee8-4c74-b64a-28a11211848c)
 
 * OptiFine (1.14.2 - 1.20.1)
 
 ![OptiFine](https://github.com/Oscar395/OSLauncher/assets/71895090/d2b541ce-fcfe-42e9-becd-f941e64ed87f)
+
+* Fabric (1.14.2 - 1.20.1)
+
+![Fabric](https://github.com/Oscar395/OSLauncher/assets/71895090/bf20b21a-bd0c-4f82-a5a0-7a0d443a15a9)
+
+## Downloads
+
+This requires java to run properly. If you don't have java Installed you can download it from here:
+
+Download .exe version:
+
+Download .Jar version:
 

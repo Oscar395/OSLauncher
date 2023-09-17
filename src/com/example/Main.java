@@ -118,7 +118,7 @@ public class Main {
             }
 
             try {
-                BufferedImage skin = UvSkinMap.toBufferedImage(new ImageIcon(Utils.localSkinPath).getImage());
+                BufferedImage skin = UvSkinMap.toBufferedImage(new ImageIcon(Main.class.getClassLoader().getResource("steve.png")).getImage());
                 ImageIO.write(skin, "png", new File(localSkinPath));
             } catch (IOException e) {
                 throw new RuntimeException(e);

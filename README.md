@@ -11,11 +11,15 @@ This project has been made with the intention of provinding an alternative for t
 * Cracked minecraft sessions
 
 ## Screenshots
-Main menu
+* Main menu
 
-![Captura de pantalla 2023-09-16 223615](https://github.com/Oscar395/OSLauncher/assets/71895090/24fd27ee-eefe-43f8-bf5f-f637fce5f28b)
+![MainPage](https://github.com/Oscar395/OSLauncher/assets/71895090/f189234a-99a4-4e8a-8848-6cdc3ae5b4f3)
 
-Forge
+* Forge (1.7.10 - 1.20.1)
 
-![Captura de pantalla 2023-09-16 223953](https://github.com/Oscar395/OSLauncher/assets/71895090/b1bf663a-73c7-4d3f-a1fa-8f45467a4b1b)
+![forge2](https://github.com/Oscar395/OSLauncher/assets/71895090/662ff5c0-d0c2-4940-9752-54ba5bf02c32)
+
+* OptiFine (1.14.2 - 1.20.1)
+
+![OptiFine](https://github.com/Oscar395/OSLauncher/assets/71895090/d2b541ce-fcfe-42e9-becd-f941e64ed87f)
 

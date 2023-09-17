@@ -332,7 +332,7 @@ public class Downloader extends Thread{
                 JSONObject natives = (JSONObject) library.get("natives");
                 if (natives.containsKey("windows")) {
                     String windows = (String) natives.get("windows");
-                    String windowsArch = windows.replace("${arch}", "64");
+                    String windowsArch = windows.replace("${arch}", Utils.getSystemArch());
                     JSONObject downloads = (JSONObject) library.get("downloads");
                     JSONObject classifiers = (JSONObject) downloads.get("classifiers");
                     if (classifiers.containsKey(windowsArch)) {
@@ -400,7 +400,7 @@ public class Downloader extends Thread{
 
         if (natives.containsKey("windows")) {
             String windows = (String) natives.get("windows");
-            String windowsArch = windows.replace("${arch}", "64");
+            String windowsArch = windows.replace("${arch}", Utils.getSystemArch());
             JSONObject downloads = (JSONObject) library.get("downloads");
             JSONObject classifiers = (JSONObject) downloads.get("classifiers");
 

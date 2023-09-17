@@ -19,7 +19,7 @@ public class Console {
         textArea.setForeground(Color.GREEN);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         scrollPane = new JScrollPane(textArea);
-        scrollPane.setBounds(0, 0, 885, 530);
+        scrollPane.setBounds(0, 0, 895, 540);
         scrollPane.setBackground(Color.gray);
         scrollPane.setForeground(Color.DARK_GRAY);
         System.setOut(new PrintStream(new OutputStream() {

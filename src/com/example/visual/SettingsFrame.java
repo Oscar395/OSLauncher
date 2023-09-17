@@ -148,17 +148,20 @@ public class SettingsFrame extends JFrame {
 
         // Get the total physical memory (RAM) size in bytes
         try {
-            Method m = operatingSystemMXBean.getClass().
-                    getDeclaredMethod("getTotalPhysicalMemorySize");
+            //Method m = operatingSystemMXBean.getClass().
+                    //getDeclaredMethod("getTotalPhysicalMemorySize");
 
-            m.setAccessible(true);
+            //m.setAccessible(true);
 
-            Object value = m.invoke(operatingSystemMXBean);
+            //Object value = m.invoke(operatingSystemMXBean);
 
-            if (value != null)
-            {
-                long totalRam = (long) value;
-                double totalRamGB = totalRam / (1024.0 * 1024 * 1024);
+            long memorySize = ((com.sun.management.OperatingSystemMXBean) ManagementFactory
+                    .getOperatingSystemMXBean()).getTotalPhysicalMemorySize();
+
+            //if (value != null)
+            //{
+                //long totalRam = (long) value;
+                double totalRamGB = memorySize / (1024.0 * 1024 * 1024);
 
                 long roundedTotal = Math.round(totalRamGB);
 
@@ -167,7 +170,7 @@ public class SettingsFrame extends JFrame {
                 }
 
                 System.out.println("Total RAM: " + roundedTotal + " GB");
-            }
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }

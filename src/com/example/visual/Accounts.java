@@ -11,13 +11,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -38,11 +35,11 @@ public class Accounts extends JFrame {
 
     private JComboBox accountType;
 
-    private final Image account = new ImageIcon("images/account.png").getImage();
-    private final Image ely_byLogo = new ImageIcon("images/Ely_by.png").getImage();
+    private final Image account = new ImageIcon(getClass().getClassLoader().getResource("account.png")).getImage();
+    private final Image ely_byLogo = new ImageIcon(getClass().getClassLoader().getResource("Ely_by.png")).getImage();
 
-    private final Image account25 = new ImageIcon("images/account25.png").getImage();
-    private final Image ely_byLogo25 = new ImageIcon("images/Ely_by25.png").getImage();
+    private final Image account25 = new ImageIcon(getClass().getClassLoader().getResource("account25.png")).getImage();
+    private final Image ely_byLogo25 = new ImageIcon(getClass().getClassLoader().getResource("Ely_by25.png")).getImage();
     JList<Account> accountList = new JList<>();
     DefaultListModel<Account> model = new DefaultListModel<>();
 
@@ -52,9 +49,10 @@ public class Accounts extends JFrame {
 
     public Accounts() {
         setLayout(null);
-        setTitle("Ely.by Login");
+        setTitle("Account Login");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(580, 340);
+        setResizable(false);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
@@ -83,7 +81,7 @@ public class Accounts extends JFrame {
             public void insertUpdate(DocumentEvent e) {
                 if (accountType.getSelectedItem().equals("Ely.by account")) {
                     createAccountLbl.setForeground(Color.WHITE);
-                    createAccountLbl.setText("Don't have an Ely.by account? make one");
+                    createAccountLbl.setText("Don't have an Ely.by account? register");
                 } else {
                     createAccountLbl.setText("");
                 }
@@ -108,7 +106,7 @@ public class Accounts extends JFrame {
             public void insertUpdate(DocumentEvent e) {
                 if (accountType.getSelectedItem().equals("Ely.by account")) {
                     createAccountLbl.setForeground(Color.WHITE);
-                    createAccountLbl.setText("Don't have an Ely.by account? make one");
+                    createAccountLbl.setText("Don't have an Ely.by account? register");
                 }
             }
             @Override
@@ -175,7 +173,7 @@ public class Accounts extends JFrame {
                         e1.printStackTrace();
                     }
 
-                    Image skinImage = new ImageIcon("images/steve.png").getImage();
+                    Image skinImage = new ImageIcon(getClass().getClassLoader().getResource("steve.png")).getImage();
                     BufferedImage bSkinImage = UvSkinMap.toBufferedImage(skinImage);
 
                     try {
@@ -197,6 +195,28 @@ public class Accounts extends JFrame {
         createAccountLbl.setBounds(10, 230, 250, 25);
         createAccountLbl.setForeground(Color.WHITE);
         createAccountLbl.setHorizontalAlignment(JLabel.CENTER);
+        createAccountLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        createAccountLbl.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://account.ely.by/register"));
+
+                } catch (IOException | URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+            }
+        });
 
         accountType = new JComboBox<>();
         accountType.setBounds(10, 35, 250, 25);
@@ -220,7 +240,7 @@ public class Accounts extends JFrame {
                     passwordLabel.setForeground(Color.WHITE);
                     emailLabel.setText("Email or Username:");
                     createAccountLbl.setForeground(Color.WHITE);
-                    createAccountLbl.setText("Don't have an Ely.by account? make one");
+                    createAccountLbl.setText("Don't have an Ely.by account? register");
                 }
             }
         });
@@ -435,11 +455,7 @@ public class Accounts extends JFrame {
 
             JSONObject payloadJson = (JSONObject) parseObj;
 
-            String clientToken = (String) payloadJson.get("ely-client-token");
-
-            System.out.println(clientToken);
-
-            Utils.clientToken = clientToken;
+            Utils.clientToken = (String) payloadJson.get("ely-client-token");
             Utils.saveUserPrefs();
 
         } catch (ParseException e) {
@@ -488,6 +504,16 @@ public class Accounts extends JFrame {
 
                 // get the response-code from the response
                 responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == 404) {
+                    createAccountLbl.setText("Not Found");
+                    createAccountLbl.setForeground(Color.RED);
+                }
+
+                if (responseCode == 200) {
+                    createAccountLbl.setForeground(Color.green);
+                    createAccountLbl.setText("Log in successfully");
+                }
 
                 // print out URL details
                 System.out.format("Connecting to %s\nConnection Method: '%s'\nResponse Code is: %d\n", url, "POST", responseCode);
@@ -632,11 +658,7 @@ public class Accounts extends JFrame {
 
                     JSONObject payloadJson = (JSONObject) parseObj;
 
-                    String clientToken = (String) payloadJson.get("ely-client-token");
-
-                    System.out.println(clientToken);
-
-                    Utils.clientToken = clientToken;
+                    Utils.clientToken = (String) payloadJson.get("ely-client-token");
                     Utils.saveUserPrefs();
 
                 } catch (ParseException e) {

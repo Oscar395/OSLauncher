@@ -98,7 +98,7 @@ public class JsonWriterAndReader {
     }
 
     public void downloadSelectedVersion(JComboBox versionsBox, JProgressBar progressBar) {
-        progressBar.setSize(890, 20);
+        progressBar.setSize(895, 20);
         progressBar.setLocation(0, 445);
         String selectedVersion = versionsBox.getSelectedItem().toString();
         try {
@@ -194,7 +194,7 @@ public class JsonWriterAndReader {
                             SwingUtilities.invokeLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progressBar.setSize(890, 20);
+                                    progressBar.setSize(895, 20);
                                     progressBar.setLocation(0, 445);
                                     progressBar.setString("Downloading forge installer...");
                                 }
@@ -210,7 +210,9 @@ public class JsonWriterAndReader {
                                 }
                             });
 
-                            ProcessBuilder processBuilder = new ProcessBuilder("java" ,"-jar", installerPath);
+                            String javaHome = System.getProperty("java.home");
+                            String javaExecutable = javaHome + "/bin/java";
+                            ProcessBuilder processBuilder = new ProcessBuilder(javaExecutable ,"-jar", installerPath);
 
                             Process process = processBuilder.start();
                             System.out.println("Installing forge...");
@@ -255,7 +257,7 @@ public class JsonWriterAndReader {
                             SwingUtilities.invokeLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progressBar.setSize(890, 20);
+                                    progressBar.setSize(895, 20);
                                     progressBar.setLocation(0, 445);
                                     progressBar.setString("Downloading OptiFine...");
                                 }
@@ -320,7 +322,10 @@ public class JsonWriterAndReader {
                                     }
                                 });
 
-                                ProcessBuilder processBuilder = new ProcessBuilder("java" ,"-jar", installerPath);
+                                String javaHome = System.getProperty("java.home");
+                                String javaExecutable = javaHome + "/bin/java";
+
+                                ProcessBuilder processBuilder = new ProcessBuilder(javaExecutable ,"-jar", installerPath);
 
                                 Process process = processBuilder.start();
                                 System.out.println("Installing OptiFine...");
@@ -351,7 +356,10 @@ public class JsonWriterAndReader {
                                     Versionjson = (JSONObject) objeto;
                                 }
                             } else if (Files.notExists(Paths.get(versionPathcheck))) {
-                                ProcessBuilder processBuilder = new ProcessBuilder("java" ,"-jar", installerPath);
+
+                                String javaHome = System.getProperty("java.home");
+                                String javaExecutable = javaHome + "/bin/java";
+                                ProcessBuilder processBuilder = new ProcessBuilder(javaExecutable ,"-jar", installerPath);
 
                                 Process process = processBuilder.start();
                                 System.out.println("Installing OptiFine...");

@@ -1,6 +1,5 @@
 package com.example;
 
-import com.example.visual.Accounts;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -9,8 +8,8 @@ import java.util.prefs.Preferences;
 
 public class Utils {
 
-    public static final int WIDTH  = 900;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH  = 912;
+    public static final int HEIGHT = 612;
 
     static Preferences userPrefs = Preferences.userNodeForPackage(Utils.class);
 
@@ -28,7 +27,7 @@ public class Utils {
 
     public static String accountLocalPath = userPrefs.get("accountLocalPath", null);
 
-    public static String localSkinPath = userPrefs.get("localSkinPath", "images/steve.png");
+    public static String localSkinPath = userPrefs.get("localSkinPath", "steve.png");
 
     public static String javaAgentPath = userPrefs.get("javaAgentPath", "");
 
@@ -73,6 +72,20 @@ public class Utils {
 
     public static String getWorkingDirectory() {
         return System.getenv("APPDATA");
+    }
+
+    public static String getSystemArch() {
+        String architecture = System.getProperty("os.arch");
+
+        String arch = architecture.replaceAll("[^0-9]+", "");
+
+        if (arch.contains("64")) {
+            return "64";
+        } else if (arch.contains("86")) {
+            return "32";
+        } else {
+            return "64";
+        }
     }
 
     //JVM arguments

@@ -1,16 +1,17 @@
 package com.example;
 
 import com.example.visual.UvSkinMap;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -132,8 +133,10 @@ public class Main {
     }
 
     public static void copyJavaAgent() {
-        String path = "javaAgent/authlib-injector-1.2.3.jar";
+        URL path = Main.class.getClassLoader().getResource("authlib-injector-1.2.3.jar");
+
         String destination = Utils.getWorkingDirectory() + "\\.minecraft\\OSLauncher\\javaAgent\\authlib-injector-1.2.3.jar";
+        File dest = new File(destination);
         Utils.javaAgentPath = destination;
         Utils.saveUserPrefs();
 
@@ -149,7 +152,9 @@ public class Main {
 
         if (Files.notExists(path1)) {
             try {
-                copyResource(path, destination);
+                FileUtils.copyURLToFile(path, dest);
+                //copyResource(path, destination);
+                System.out.println("java Agent successfully copy");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -163,6 +168,11 @@ public class Main {
 
     public static void tryToCopyJre(JFrame frame) {
         String source = "C:\\Program Files\\Java";
+
+        if (Utils.getSystemArch().equals("32")) {
+            source = "C:\\Program Files (x86)\\Java";
+        }
+
         try {
             Path destinationLegacy = Paths.get(Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\jre-legacy");
             Path destinationGamma = Paths.get(Utils.getWorkingDirectory() + "\\.minecraft\\runtime\\java-runtime-gamma");
@@ -173,9 +183,20 @@ public class Main {
                 for (String folder: primaryFolders) {
                     if (folder.contains("jdk")) {
                         source = "C:\\Program Files\\Java\\" + folder;
+                        if (Utils.getSystemArch().equals("32")) {
+                            source = "C:\\Program Files (x86)\\Java" + folder;
+                        }
+
                         Path jdkPath = Paths.get(source);
+
                         if (pathContainsFolder(jdkPath, "jre")){
+
                             source = "C:\\Program Files\\Java\\" + folder + "\\" + "jre";
+
+                            if (Utils.getSystemArch().equals("32")) {
+                                source = "C:\\Program Files (x86)\\Java" + folder + "\\" + "jre";
+                            }
+
                             if (Files.notExists(destinationLegacy)) {
                                 copyRuntime(destinationLegacy, Paths.get(source), frame);
                             }
@@ -187,6 +208,10 @@ public class Main {
 
                     } else if (folder.contains("jre")) {
                         source = "C:\\Program Files\\Java\\" + folder;
+                        if (Utils.getSystemArch().equals("32")) {
+                            source = "C:\\Program Files (x86)\\Java" + folder;
+                        }
+
                         if (Files.notExists(destinationLegacy)) {
                             copyRuntime(destinationLegacy, Paths.get(source), frame);
                         }

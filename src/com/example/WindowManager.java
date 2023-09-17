@@ -1,7 +1,6 @@
 package com.example;
 
 import com.example.visual.*;
-import javafx.scene.control.Skin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,7 +17,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,33 +43,34 @@ public class WindowManager extends JFrame{
 
     private final Color buttonsColor = new Color(110, 110, 110);
 
-    private final Image forgeIcon = new ImageIcon("images/forge_icon.png").getImage();
-    private final Image vanillaIcon = new ImageIcon("images/vanilla_icon.png").getImage();
-    private final Image optifineIcon = new ImageIcon("images/optifine_icon.png").getImage();
-    private final Image snapshotIcon = new ImageIcon("images/dirt_icon.png").getImage();
-    private final Image fabricIcon = new ImageIcon("images/fabric_icon.png").getImage();
+    private final Image forgeIcon = new ImageIcon(getClass().getClassLoader().getResource("forge_icon.png")).getImage();
+    private final Image vanillaIcon = new ImageIcon(getClass().getClassLoader().getResource("vanilla_icon.png")).getImage();
+    private final Image optifineIcon = new ImageIcon(getClass().getClassLoader().getResource("optifine_icon.png")).getImage();
+    private final Image snapshotIcon = new ImageIcon(getClass().getClassLoader().getResource("dirt_icon.png")).getImage();
+    private final Image fabricIcon = new ImageIcon(getClass().getClassLoader().getResource("fabric_icon.png")).getImage();
 
-    public final Image accountEly_byIcon = new ImageIcon("images/Ely_by25.png").getImage();
-    public final Image accountLocalIcon = new ImageIcon("images/account25.png").getImage();
+    public final Image accountEly_byIcon = new ImageIcon(getClass().getClassLoader().getResource("Ely_by25.png")).getImage();
+    public final Image accountLocalIcon = new ImageIcon(getClass().getClassLoader().getResource("account25.png")).getImage();
 
     //JSON writer
     private JsonWriterAndReader jsonWriterAndReader = new JsonWriterAndReader();
     public WindowManager() {
-
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(Utils.WIDTH, Utils.HEIGHT);
+        //setSize(Utils.WIDTH, Utils.HEIGHT);
         setResizable(false);
-        setTitle("McLauncher");
-        setVisible(true);
-        setLocationRelativeTo(null);
+        setTitle("OSLauncher");
         Instance = this;
 
-        imagePanel = new ImagePanel(new ImageIcon("images/background.png").getImage());
-        versionIcon = new ImagePanel(new ImageIcon("images/vanilla_icon.png").getImage());
+        imagePanel = new ImagePanel(new ImageIcon(getClass().getClassLoader().getResource("background.png")).getImage());
+        versionIcon = new ImagePanel(new ImageIcon(getClass().getClassLoader().getResource("vanilla_icon.png")).getImage());
+
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
+        setIconImage(icon.getImage());
 
         panel1 = new JPanel();
         panel1.setLayout(null);
+        panel1.setBounds(0, 0, Utils.WIDTH, Utils.HEIGHT);
         panel1.setBackground(Color.darkGray);
 
         //panel1.setBorder(new EmptyBorder(10, 10,10 ,10));
@@ -97,7 +96,8 @@ public class WindowManager extends JFrame{
 
         jTabbedPane = new JTabbedPane();
 
-        jTabbedPane.setBounds(0,0, Utils.WIDTH - 5, Utils.HEIGHT - this.getInsets().top);
+        jTabbedPane.setBounds(0,0, Utils.WIDTH - 5, Utils.HEIGHT);
+        jTabbedPane.setPreferredSize(new Dimension(Utils.WIDTH, Utils.HEIGHT));
         jTabbedPane.setBackground(new Color(178, 182, 185));
         jTabbedPane.setForeground(Color.WHITE);
         jTabbedPane.setUI(new CustomTabbedPaneUI());
@@ -115,6 +115,10 @@ public class WindowManager extends JFrame{
         if (Utils.accountType.equals("Ely.by account")) {
             Accounts.refreshAccessToken(Utils.accessToken);
         }
+        setPreferredSize(new Dimension(Utils.WIDTH, Utils.HEIGHT));
+        pack();
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     private void initComponents() {
@@ -134,7 +138,7 @@ public class WindowManager extends JFrame{
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
         progressBar.setString("");
-        progressBar.setSize(890, 4);
+        progressBar.setSize(895, 4);
         progressBar.setLocation(0,452);
         progressBar.setBackground(Color.DARK_GRAY);
         progressBar.setForeground(new Color(105, 157, 94));

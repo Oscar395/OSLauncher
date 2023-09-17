@@ -11,3 +11,11 @@ This project has been made with the intention of provinding an alternative for t
 * Cracked minecraft sessions
 
 ## Screenshots
+Main menu
+
+![Captura de pantalla 2023-09-16 223615](https://github.com/Oscar395/OSLauncher/assets/71895090/24fd27ee-eefe-43f8-bf5f-f637fce5f28b)
+
+Forge
+
+![Captura de pantalla 2023-09-16 223953](https://github.com/Oscar395/OSLauncher/assets/71895090/b1bf663a-73c7-4d3f-a1fa-8f45467a4b1b)
+

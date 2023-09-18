@@ -40,7 +40,7 @@ Download .exe version:
 
 [OSLauncher_.exe](https://oscar395.github.io/oslauncher-repository/launcher_release/OSLauncher_.exe)
 
-If you want to use the .exe version you will probably need to configure the system's environment variables
+If you want to use the .exe version you will probably need to configure the system's environment variables [see how to do it](https://www.pchardwarepro.com/como-configurar-java_home-en-windows-10/)
 
 If you want to play older versions like 1.16.5 you have to install Java 8: [JRE 8](https://www.java.com/es/download/ie_manual.jsp)
 
@@ -50,6 +50,4 @@ If you want to play older versions like 1.16.5 you have to install Java 8: [JRE 
 * If you are using an Ely.by account you have use the default runtime path so the authlib injector can work
 * If the .exe launcher does not work, you can try with the .jar version
 
-## Contributing
-You can contribute to this project by cloning the project and setting it up with intellij idea
-I will probably use maven or gradle in the future for better packaging 📦 
+If you have any questions or you want to contribute you can contact me on discord [discord](https://discordapp.com/users/693129739808014336)

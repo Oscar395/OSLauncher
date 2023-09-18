@@ -8,7 +8,7 @@ This project has been made with the intention of provinding an alternative for t
 * Integration of OptiFine (from 1.14.2 to 1.20.1)
 * Can run almost any version from alpha to 1.20.1
 * Skins system (still in development)
-* bat files (run directly without opening the launcher)
+* bat files (run the game directly without opening the launcher)
 * Cracked minecraft sessions
 
 ## Screenshots

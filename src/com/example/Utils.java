@@ -25,7 +25,7 @@ public class Utils {
 
     public static String accountType = userPrefs.get("accountType", "Local account");
 
-    public static String accountLocalPath = userPrefs.get("accountLocalPath", null);
+    public static String accountLocalPath = userPrefs.get("accountLocalPath", "");
 
     public static String localSkinPath = userPrefs.get("localSkinPath", "steve.png");
 
@@ -61,7 +61,7 @@ public class Utils {
 
     public static String javaAgentArgs = "";
 
-    public static String downloadedVersion = userPrefs.get("downloadedVersion", null);
+    public static String downloadedVersion = userPrefs.get("downloadedVersion", "");
 
     public static boolean isForgeVersion = false;
     public static boolean isOptifineVersion = false;

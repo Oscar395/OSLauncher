@@ -57,9 +57,12 @@ public class WindowManager extends JFrame{
     public WindowManager() {
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setSize(Utils.WIDTH, Utils.HEIGHT);
+        setSize(Utils.WIDTH, Utils.HEIGHT);
         setResizable(false);
         setTitle("OSLauncher");
+        setVisible(true);
+        setLocationRelativeTo(null);
+
         Instance = this;
 
         imagePanel = new ImagePanel(new ImageIcon(getClass().getClassLoader().getResource("background.png")).getImage());
@@ -115,10 +118,6 @@ public class WindowManager extends JFrame{
         if (Utils.accountType.equals("Ely.by account")) {
             Accounts.refreshAccessToken(Utils.accessToken);
         }
-        setPreferredSize(new Dimension(Utils.WIDTH, Utils.HEIGHT));
-        pack();
-        setVisible(true);
-        setLocationRelativeTo(null);
     }
 
     private void initComponents() {
@@ -287,7 +286,7 @@ public class WindowManager extends JFrame{
 
                 //sets a java agent if the account is Ely.by account
                 if (Utils.accountType.equals("Ely.by account")) {
-                    Utils.javaAgentArgs = " -javaagent:" + Utils.javaAgentPath + "=ely.by";
+                    Utils.javaAgentArgs = " -javaagent:" + ArgumentsGen.surroundWithQuotes(Utils.javaAgentPath + "=ely.by");
                 } else {
                     Utils.javaAgentArgs = "";
                     Utils.clientToken = "";

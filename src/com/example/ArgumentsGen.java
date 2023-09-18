@@ -89,7 +89,7 @@ public class ArgumentsGen {
                     String value = (String) o;
 
                     String fixedValue = value.replace("${version_name}", Utils.downloadedVersion)
-                            .replace("${library_directory}", Utils.library_directory)
+                            .replace("${library_directory}", surroundWithQuotes(Utils.library_directory))
                             .replace("${classpath_separator}", ";");
                     forgeJVMArguments.add(fixedValue);
                 }
@@ -117,18 +117,28 @@ public class ArgumentsGen {
         return gameArgs.toString();
     }
 
+    public static String surroundWithQuotes(String input) {
+        if (input.contains(" ")) {
+            // If the input contains spaces, surround it with double quotes
+            return "\"" + input + "\"";
+        } else {
+            // If there are no spaces, return the input unchanged
+            return input;
+        }
+    }
+
     private String genJreArguments() {
         if (version.containsKey("javaVersion")) {
             JSONObject javaVersion = (JSONObject) version.get("javaVersion");
             long majorVersion = (long) javaVersion.get("majorVersion");
 
             if (majorVersion <= 8) {
-                return Utils.LegacyPath + " ";
+                return surroundWithQuotes(Utils.LegacyPath) + " ";
             } else {
-                return Utils.GammaPath + " ";
+                return surroundWithQuotes(Utils.GammaPath) + " ";
             }
         } else {
-            return Utils.LegacyPath + " ";
+            return surroundWithQuotes(Utils.LegacyPath) + " ";
         }
     }
 
@@ -187,24 +197,24 @@ public class ArgumentsGen {
                     String obj = (String) o;
 
                     if (obj.equals("-Djava.library.path=${natives_directory}")) {
-                        String libraryPath = "-Djava.library.path=" + Utils.natives_directory;
+                        String libraryPath = "-Djava.library.path=" + surroundWithQuotes(Utils.natives_directory);
                         //String libraryPathF = libraryPath.replace("${natives_directory}", Utils.natives_directory);
                         jvmArguments.add(libraryPath);
                     }
                     if (obj.equals("-Djna.tmpdir=${natives_directory}")){
-                        String tmpdir = "-Djna.tmpdir=" + Utils.natives_directory;
+                        String tmpdir = "-Djna.tmpdir=" + surroundWithQuotes(Utils.natives_directory);
                         //String tmpdirF = tmpdir.replace("${natives_directory}", Utils.natives_directory);
                         jvmArguments.add(tmpdir);
                     }
 
                     if (obj.equals("-Dorg.lwjgl.system.SharedLibraryExtractPath=${natives_directory}")) {
-                        String lwjgl = "-Dorg.lwjgl.system.SharedLibraryExtractPath=" + Utils.natives_directory;
+                        String lwjgl = "-Dorg.lwjgl.system.SharedLibraryExtractPath=" + surroundWithQuotes(Utils.natives_directory);
                         //String lwjglF = lwjgl.replace("${natives_directory}", Utils.natives_directory);
                         jvmArguments.add(lwjgl);
                     }
 
                     if (obj.equals("-Dio.netty.native.workdir=${natives_directory}")) {
-                        String nettyNative = "-Dio.netty.native.workdir=" + Utils.natives_directory;
+                        String nettyNative = "-Dio.netty.native.workdir=" + surroundWithQuotes(Utils.natives_directory);
                         //String nettyNativeF = nettyNative.replace("${natives_directory}", Utils.natives_directory);
                         jvmArguments.add(nettyNative);
                     }
@@ -224,10 +234,10 @@ public class ArgumentsGen {
             return jvmArguments.toString();
         } else {
 
-            String libraryPath = "-Djava.library.path=" + Utils.natives_directory;
+            String libraryPath = "-Djava.library.path=" + surroundWithQuotes(Utils.natives_directory);
             String launcher_name = "-Dminecraft.launcher.brand=" + Utils.launcher_name;
             String launcher_version = "-Dminecraft.launcher.version=2.8.2";
-            String mcClient = "-Dminecraft.client.jar=" + Utils.primary_jar;
+            String mcClient = "-Dminecraft.client.jar=" + surroundWithQuotes(Utils.primary_jar);
 
             jvmArguments.add("\"-Dos.name=Windows 10\"").add("-Dos.version=10.0")
                     .add("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump")
@@ -242,7 +252,7 @@ public class ArgumentsGen {
         for (String s: Utils.classPaths) {
             classPaths.add(s);
         }
-        return classPaths.toString() + ";" + Utils.primary_jar;
+        return surroundWithQuotes(classPaths.toString() + ";" + Utils.primary_jar);
     }
 
     public String genExtraArguments() {
@@ -290,12 +300,12 @@ public class ArgumentsGen {
                     }
 
                     if (jsonObject.equals("--gameDir")) {
-                        String gameDir = "--gameDir " + Utils.game_directory;
+                        String gameDir = "--gameDir " + surroundWithQuotes(Utils.game_directory);
                         gameArguments.add(gameDir);
                     }
 
                     if (jsonObject.equals("--assetsDir")) {
-                        String assetsDir = "--assetsDir " + Utils.assets_root;
+                        String assetsDir = "--assetsDir " + surroundWithQuotes(Utils.assets_root);
                         gameArguments.add(assetsDir);
                     }
 
@@ -358,9 +368,9 @@ public class ArgumentsGen {
             String assetsPath = "";
 
             if (id.equals("pre-1.6")) {
-                assetsPath = Utils.getWorkingDirectory() + "\\.minecraft\\resources";
+                assetsPath = surroundWithQuotes(Utils.getWorkingDirectory() + "\\.minecraft\\resources");
             } else {
-                assetsPath = Utils.getWorkingDirectory() + "\\.minecraft\\assets\\virtual\\legacy";
+                assetsPath = surroundWithQuotes(Utils.getWorkingDirectory() + "\\.minecraft\\assets\\virtual\\legacy");
             }
 
             if (Utils.isForgeVersion) {
@@ -368,8 +378,8 @@ public class ArgumentsGen {
                 minecraftArguments = (String) forgeVersion.get("minecraftArguments");
             }
             return " " + minecraftArguments.replace("${auth_player_name}", Utils.auth_player_name)
-                    .replace("${version_name}", Utils.downloadedVersion).replace("${game_directory}", Utils.game_directory)
-                    .replace("${assets_root}", Utils.assets_root).replace("${assets_index_name}", Utils.assets_index_name)
+                    .replace("${version_name}", Utils.downloadedVersion).replace("${game_directory}", surroundWithQuotes(Utils.game_directory))
+                    .replace("${assets_root}", surroundWithQuotes(Utils.assets_root)).replace("${assets_index_name}", Utils.assets_index_name)
                     .replace("${auth_uuid}", Utils.playerUUID).replace("${auth_access_token}", "c01431e9c85e8e141730c2e2015ee64420243e9089591a0b6ab964b961aa1bbf")
                     .replace("${user_type}", "mojang").replace("${user_properties}", "{}")
                     .replace("${version_type}", Utils.VersionType).replace("${auth_session}", "416f2980fb2f6a605a56e71b5917986b55239a1647868d22fe15def670d3491e")

@@ -612,7 +612,7 @@ public class Downloader extends Thread{
 
                 String finalPath = Utils.getWorkingDirectory() + "\\.minecraft\\assets\\log_configs\\" + id;
 
-                Utils.Log4jArgument = argument.replace("${path}", finalPath);
+                Utils.Log4jArgument = argument.replace("${path}", ArgumentsGen.surroundWithQuotes(finalPath));
 
                 Path directoryPath = Paths.get(finalPath).getParent();
                 if (directoryPath != null) {

@@ -30,7 +30,7 @@ This project has been made with the intention of provinding an alternative for t
 
 ## Downloads
 
-This requires java to run properly. If you don't have java Installed you can download it from here: [JDK 17](https://download.oracle.com/java/17/archive/jdk-17.0.8_windows-x64_bin.exe)
+The launcher requires java to work properly. If you don't have java Installed you can download it from here: [JDK 17](https://download.oracle.com/java/17/archive/jdk-17.0.8_windows-x64_bin.exe)
 
 Download .Jar version:
 

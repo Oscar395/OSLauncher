@@ -44,6 +44,8 @@ If you want to use the .exe version you will probably need to configure the syst
 
 If you want to play older versions like 1.16.5 you have to install Java 8: [JRE 8](https://www.java.com/es/download/ie_manual.jsp)
 
+The launcher is only available for windows for now.
+
 ## Known Issues
 * Sometimes the game will not launch if you are using the default Jre 8 path, you can change it in the settings and put the normal java 8 installation path, this might happen if you have an old graphics card
 * Forge is only supported for 1.7.10 to 1.20.1 if you try to run an older version the game wont launch

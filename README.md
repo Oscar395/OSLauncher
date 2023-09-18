@@ -34,11 +34,11 @@ This requires java to run properly. If you don't have java Installed you can dow
 
 Download .exe version:
 
-[OSLauncher_.exe](https://oscar395.github.io/oslauncher-repository/launcher-release/OSLauncher_.exe)
+[OSLauncher_.exe](https://oscar395.github.io/oslauncher-repository/launcher_release/OSLauncher_.exe)
 
 Download .Jar version:
 
-[OSLauncher.jar](https://oscar395.github.io/oslauncher-repository/launcher-release/OSLauncher.jar)
+[OSLauncher.jar](https://oscar395.github.io/oslauncher-repository/launcher_release/OSLauncher.jar)
 
 If you want to play older versions like 1.16.5 you have to install Java 8: [JRE 8](https://www.java.com/es/download/ie_manual.jsp)
 

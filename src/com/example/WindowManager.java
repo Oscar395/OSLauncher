@@ -55,6 +55,7 @@ public class WindowManager extends JFrame{
     //JSON writer
     private JsonWriterAndReader jsonWriterAndReader = new JsonWriterAndReader();
     public WindowManager() {
+
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Utils.WIDTH, Utils.HEIGHT);

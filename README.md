@@ -1,4 +1,5 @@
-# OSLauncher  ![icon40](https://github.com/Oscar395/OSLauncher/assets/71895090/441cad35-4c39-473b-8cf9-29a1e7b48798)
+![logo4](https://github.com/Oscar395/OSLauncher/assets/71895090/cbcfb331-cf6e-4521-a360-717f46a72ee1)
+# OSLauncher
 
 ## A fully functional minecraft launcher written in java, with integrated mod loaders like Forge and Fabric
 

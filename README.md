@@ -1,4 +1,5 @@
-![logo4](https://github.com/Oscar395/OSLauncher/assets/71895090/cbcfb331-cf6e-4521-a360-717f46a72ee1)
+
+![logo4](https://github.com/Oscar395/OSLauncher/assets/71895090/f87ef3d2-1369-48cf-b91a-18ad16033f02)
 # OSLauncher
 
 ## A fully functional minecraft launcher written in java, with integrated mod loaders like Forge and Fabric
@@ -15,19 +16,19 @@ This project has been made with the intention of provinding an alternative for t
 ## Screenshots
 * Main menu
 
-![MainPage](https://github.com/Oscar395/OSLauncher/assets/71895090/f189234a-99a4-4e8a-8848-6cdc3ae5b4f3)
+![MainPage](https://github.com/Oscar395/OSLauncher/assets/71895090/2015b35b-8536-4f68-b804-d2ea028e0e28)
 
 * Forge (1.7.10 - 1.20.1)
 
-![forge3](https://github.com/Oscar395/OSLauncher/assets/71895090/931ad972-2ee8-4c74-b64a-28a11211848c)
+![forge3](https://github.com/Oscar395/OSLauncher/assets/71895090/43431e75-d811-49ba-bd77-074199dcb914)
 
 * OptiFine (1.14.2 - 1.20.1)
 
-![OptiFine](https://github.com/Oscar395/OSLauncher/assets/71895090/d2b541ce-fcfe-42e9-becd-f941e64ed87f)
+![OptiFine](https://github.com/Oscar395/OSLauncher/assets/71895090/81173516-372e-485d-b2a8-a19c764b0ace)
 
 * Fabric (1.14.2 - 1.20.1)
 
-![Fabric](https://github.com/Oscar395/OSLauncher/assets/71895090/bf20b21a-bd0c-4f82-a5a0-7a0d443a15a9)
+![Fabric](https://github.com/Oscar395/OSLauncher/assets/71895090/8cc5510d-24bf-420c-bf6a-89765717a287)
 
 ## Downloads
 

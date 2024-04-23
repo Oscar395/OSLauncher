@@ -36,11 +36,11 @@ The launcher requires java to work properly. If you don't have java Installed yo
 
 Download .Jar version:
 
-[OSLauncher.jar](https://oscar395.github.io/oslauncher-repository/launcher_release/OSLauncher.jar)
+[OSLauncher.jar](https://oslauncher-repository.pages.dev/launcher_release/OSLauncher.jar)
 
 Download .exe version:
 
-[OSLauncher_.exe](https://oscar395.github.io/oslauncher-repository/launcher_release/OSLauncher_.exe)
+[OSLauncher_.exe](https://oslauncher-repository.pages.dev/launcher_release/OSLauncher_.exe)
 
 If you want to use the .exe version you will probably need to configure the system's environment variables [see how to do it](https://www.pchardwarepro.com/como-configurar-java_home-en-windows-10/)
 
